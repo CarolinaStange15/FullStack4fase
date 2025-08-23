@@ -20,6 +20,7 @@ public class UsuarioController {
 
 
     @GetMapping("/{id}")
+    @Operation(summary = "Consultar Usuário por ID")
     public ResponseEntity<Usuario> consultaPorId(@PathVariable Long id){
 
         var usuario = usuarioRepository.findById(id).orElse(null);
@@ -32,20 +33,16 @@ public class UsuarioController {
     }
 
     @GetMapping
-    @Operation( summary = "usuarios", description = "Método responsável por ----")
+    @Operation( summary = "Consultar usuários", description = "Método responsável por consultar todos os usuários")
     public ResponseEntity<?> consultarTodos(){
 
         return ResponseEntity.ok(usuarioRepository.findAll());
-//        List<Usuario> usuariosNome = List.of(new Usuario(1L,"Carol","00000000001","123455","carolina.n.stange@gmail.com"),
-//                new Usuario(2L,"Tefy","00000000002","125455","Tefynha.capanhoni@gmail.com"),
-//                new Usuario(3L,"Maria Laura","00000000003","1233455","Marizinha.Andrade@gmail.com")
-//                );
-
+//
     }
 
     @PostMapping
-    @Operation(summary = "Salvar o usuário", description = "Método responsável por criar usuários")
-    public ResponseEntity<?> salvarUsuario(@RequestBody Usuario usuario){
+    @Operation(summary = "Cadastrar usuário", description = "Método responsável por cadastrar usuários")
+    public ResponseEntity<?> cadastrarUsuario(@RequestBody Usuario usuario){
         try{
             var usuarioResponse = usuarioRepository.save(usuario);
             return ResponseEntity.ok(usuarioResponse);
