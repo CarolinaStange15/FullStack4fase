@@ -11,17 +11,20 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name= "pets")
+@Table(name= "pet")
 public class Pet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private String especie;
     private Date dataNascimento;
     private int idadeAproximada;
-    private String nomeTutor;
+
+    @ManyToOne
+    @JoinColumn(name = "especie_id", nullable = false)
+    private Especie especie;
+
 
     public enum StatusPet {
         DISPONIVEL,
