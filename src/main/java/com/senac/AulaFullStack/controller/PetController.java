@@ -44,14 +44,14 @@ public class PetController {
         }
     }
 
-    @GetMapping("/pesquisar")
-    @Operation(summary = "Pesquisar pet", description = "Pesquisar por pet pelo nome do pet e por nome do tutor")
-    public ResponseEntity<?> pesquisarPet(@RequestParam String nome, @RequestParam String nomeTutor){
-        var pet = petRepository.findByNomeAndNomeTutor(nome, nomeTutor).orElse(null);
-        if (pet == null){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(pet);
-    }
+//    @GetMapping("/pesquisar")
+//    @Operation(summary = "Pesquisar pet", description = "Pesquisar por pet pelo nome do pet e por nome do tutor")
+//    public ResponseEntity<?> pesquisarPet(@RequestParam String nome, @RequestParam String nomeTutor){
+//        var pet = petRepository.findByNomeAndNomeTutor(nome, nomeTutor).orElse(null);
+//        if (pet == null){
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity.ok(pet);
+//    }
     
 }

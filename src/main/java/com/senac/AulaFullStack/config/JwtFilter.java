@@ -1,4 +1,5 @@
 package com.senac.AulaFullStack.config;
+
 import com.senac.AulaFullStack.services.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Collections;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -38,14 +38,12 @@ public class JwtFilter extends OncePerRequestFilter {
             String header = request.getHeader("Authorization"); //qual o padrão de autenticação?
             if (header != null && header.startsWith("Bearer ")) {
                 String token = header.replace("Bearer ", "");
-                var validador = tokenService.validarToken(token);
+                var usuario = tokenService.validarToken(token);
 
-                String user = validador;
-                System.out.printf(user);
 
                 var autorizacao = new UsernamePasswordAuthenticationToken(
-                        user,null,
-                        Collections.emptyList());
+                        usuario.getEmail(),null,
+                        usuario.getAuthorities()); //pegando autorizações do usuários
                 SecurityContextHolder.getContext().setAuthentication(autorizacao);
 
                 filterChain.doFilter(request , response);
