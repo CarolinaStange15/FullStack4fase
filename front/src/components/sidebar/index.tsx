@@ -1,0 +1,44 @@
+export default function Sidebar() {
+    return (
+      <div className="d-flex flex-column flex-shrink-0 p-3 bg-dark text-white vh-100" style={{ width: "250px" }}>
+        <div className="mb-4 text-center">
+          <img
+            src=""
+            alt="logo"
+            className="img-fluid mb-2"
+          />
+        </div>
+  
+        <ul className="nav nav-pills flex-column mb-auto">
+          <li className="nav-item">
+            <a href="/" className="nav-link text-white">
+              Home
+            </a>
+          </li>
+  
+          <li>
+            <a
+              href="#submenucadastro"
+              className="nav-link text-white"
+              data-bs-toggle="collapse"
+              aria-expanded="false"
+            >
+              Cadastro
+            </a>
+            <ul className="btn-toggle-nav list-unstyled collapse ps-3" id="submenucadastro">
+              <li>
+                <a href="/" className="nav-link text-white-50">
+                  Usuário
+                </a>
+              </li>
+              <li>
+                <a href="/" className="nav-link text-white-50">
+                  Pets
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    );
+  }
