@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Sidebar() {
     return (
       <div className="d-flex flex-column flex-shrink-0 p-3 bg-dark text-white vh-100" style={{ width: "250px" }}>
@@ -27,14 +29,13 @@ export default function Sidebar() {
             </a>
             <ul className="btn-toggle-nav list-unstyled collapse ps-3" id="submenucadastro">
               <li>
-                <a href="/" className="nav-link text-white-50">
-                  Usuário
-                </a>
+                
+              <Link to="/usuario" className="nav-link text-white-50">Usuário</Link>
+
               </li>
               <li>
-                <a href="/" className="nav-link text-white-50">
-                  Pets
-                </a>
+                              <Link to="/pets" className="nav-link text-white-50">Pets</Link>
+
               </li>
             </ul>
           </li>

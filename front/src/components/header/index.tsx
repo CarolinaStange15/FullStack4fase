@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Header() {
     const currentPath = window.location.pathname;
   
@@ -14,8 +16,7 @@ export default function Header() {
           >
             Home
           </a>
-          <a
-            href="/usuarios"
+          <Link to="/usuario"
             className={`nav-link d-inline-block px-3 ${
               currentPath === "/usuarios"
                 ? "fw-bold text-white border-bottom border-white"
@@ -23,7 +24,7 @@ export default function Header() {
             }`}
           >
             Usuarios
-          </a>
+          </Link>
         </nav>
       </header>
     );
