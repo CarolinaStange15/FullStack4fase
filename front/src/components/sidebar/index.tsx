@@ -13,9 +13,9 @@ export default function Sidebar() {
   
         <ul className="nav nav-pills flex-column mb-auto">
           <li className="nav-item">
-            <a href="/" className="nav-link text-white">
+            <Link to="/homeAdmin" className="nav-link text-white">
               Home
-            </a>
+            </Link>
           </li>
   
           <li>
@@ -30,11 +30,11 @@ export default function Sidebar() {
             <ul className="btn-toggle-nav list-unstyled collapse ps-3" id="submenucadastro">
               <li>
                 
-              <Link to="/usuario" className="nav-link text-white-50">Usuário</Link>
+              <Link to="/usuarioAdmin" className="nav-link text-white-50">Usuários</Link>
 
               </li>
               <li>
-                              <Link to="/pets" className="nav-link text-white-50">Pets</Link>
+                <Link to="/petAdmin" className="nav-link text-white-50">Pets</Link>
 
               </li>
             </ul>

@@ -16,9 +16,9 @@ export default function Header() {
           >
             Home
           </a>
-          <Link to="/usuario"
+          <Link to="/EditarUsuario"
             className={`nav-link d-inline-block px-3 ${
-              currentPath === "/usuarios"
+              currentPath === "/EditarUsuario"
                 ? "fw-bold text-white border-bottom border-white"
                 : "text-white-50"
             }`}

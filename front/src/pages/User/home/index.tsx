@@ -1,4 +1,5 @@
-import Cards from "../../components/body/cards/cards";
+import Cards from "../../../components/body/cards/cards";
+
 
 export default function Home() {
   return (
