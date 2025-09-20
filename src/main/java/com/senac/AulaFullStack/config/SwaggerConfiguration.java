@@ -22,8 +22,8 @@ public class SwaggerConfiguration {
 
                 ))
                 .info(new Info()
-                .title("Gerenciador de Assinaturas de Streaming")
+                .title("Sistema de adoção de animais")
                 .version("1.0.0")
-                .description("API para gerenciamento de assinaturas"));
+                .description("API para adoção de animais"));
     }
 }

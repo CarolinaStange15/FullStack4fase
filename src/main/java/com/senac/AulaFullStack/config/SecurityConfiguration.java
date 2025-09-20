@@ -20,7 +20,6 @@ public class SecurityConfiguration {
     @Autowired
     JwtFilter jwtFilter;
 
-
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception{
         return http.cors(Customizer.withDefaults())
@@ -28,7 +27,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests( auth ->
                 auth
                         .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() //librando o cors
+                        .requestMatchers(HttpMethod.OPTIONS, "*/**").permitAll() //librando o cors
                         .requestMatchers("/swagger-resources/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()

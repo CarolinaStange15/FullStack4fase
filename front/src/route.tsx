@@ -8,8 +8,8 @@ import Home from "./pages/user/home/index";
 import Usuario from "./pages/user/usuario/index";
 import EditaUsuario from "./pages/user/editaUsuario/index";
 import UsuarioAdmin from "./pages/admin/usuarioAdmin/index";
-import HomeAdmin from "./pages/admin/homeAdmin/index";
-import PetAdmin from "./pages/admin/petAdmin/index";
+import PetAdmin from "./pages/admin/consultaPets/index";
+import HomeAdmin from "./pages/admin/home";
 
 
 
@@ -33,6 +33,7 @@ export default function AppRoutes() {
                 //inativa usuário
                 //pet específico
                 //pesquisa pet por especie
+
                 //cadastrar pet
                 //editar pet
 

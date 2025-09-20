@@ -1,5 +1,6 @@
-import React, { useState, type FormEvent } from "react";
+import React, { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 interface LoginRequest {
     email: string;
@@ -20,25 +21,24 @@ export default function Login() {
         senha: '',
     });
 
-    const HandleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
+        
         setFormData(prevState => ({
             ...prevState,
             [name]: value,
 
 
         }));
-
     };
-
-
-
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         try {
-            const response = await axios.post<LoginResponse>(API_URL + "auth/login",formData);
+            const response = await axios.post<LoginResponse>(API_URL + "auth/login",formData 
+              
+            );
             const token = response.data.token;
             console.log(token)
             if(token !=null) {
@@ -67,23 +67,26 @@ export default function Login() {
         //        console.log(data.token);
 
 
-        // } catch (error) {
-        //     console.error;
-        // }
+         } catch (error) {
+        console.error;
+         }
 
     }
 
 
 
 return (
+    <>
+
     <form onSubmit={handleSubmit}>
         <div className="mb-3">
             <label htmlFor="email" className="form-label text-light">Email</label>
             <input
                 type="email"
                 id="email"
+                name="email"
                 value={formData.email}
-                onChange={HandleChange}
+                onChange={handleChange}
                 className="form-control bg-dark text-light border-secondary"
                 placeholder="seu@email.com"
                 required
@@ -96,6 +99,8 @@ return (
             <input
                 type="password"
                 id="password"
+                name="senha"
+                onChange={handleChange}
                 value={formData.senha}
                 className="form-control bg-dark text-light border-secondary"
                 placeholder="Digite sua senha"
@@ -112,8 +117,10 @@ return (
                 Criar conta
             </a>
         </div>
+
     </form>
+    </>
 );
 
 
-};
+}

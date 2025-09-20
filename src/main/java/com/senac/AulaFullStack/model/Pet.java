@@ -18,8 +18,9 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private Date dataNascimento;
-    private int idadeAproximada;
+    private String idadeAproximada;
+    private  String descricao;
+    private String contatoAdocao;
 
     @ManyToOne
     @JoinColumn(name = "especie_id", nullable = false)
