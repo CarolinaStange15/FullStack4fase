@@ -5,6 +5,7 @@ import com.senac.AulaFullStack.model.Especie;
 import com.senac.AulaFullStack.repository.EspecieRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +18,15 @@ public class EspecieController {
     @Autowired
     private EspecieRepository especieRepository;
 
-    @GetMapping("/{id}")
-    @Operation(summary = "Consultar espécie por ID", description = "Método responsável por consultar espécie por ID0")
-    public ResponseEntity<?> consultaPorId(@PathVariable Long id){
-        var especie = especieRepository.findById(id).orElse(null);
-        if (especie == null){
-            return ResponseEntity.ok().build();
-        }
-    return ResponseEntity.ok(especie);
-    }
+//    @GetMapping("/{id}")
+//    @Operation(summary = "Consultar espécie por ID", description = "Método responsável por consultar espécie por ID0")
+//    public ResponseEntity<?> consultaPorId(@PathVariable Long id){
+//        var especie = especieRepository.findById(id).orElse(null);
+//        if (especie == null){
+//            return ResponseEntity.ok().build();
+//        }
+//    return ResponseEntity.ok(especie);
+//    }
 
     @GetMapping
     @Operation(summary = "Consultar especies", description = "Método responsável por consultar todas as espécies de animais")
@@ -44,6 +45,8 @@ public class EspecieController {
         }
 
     }
+
+
 
 
 

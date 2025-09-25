@@ -33,7 +33,12 @@ public class SecurityConfiguration {
                         .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/usuarios").hasRole("ADMIN")
                         .requestMatchers("/especies").hasRole("ADMIN")
-                        .requestMatchers("/pets").permitAll()
+                        .requestMatchers("/pets").hasRole("ADMIN")
+                        .requestMatchers("/pets/**").permitAll()
+                        .requestMatchers("/pets/**/editar").permitAll()
+
+
+
                         .anyRequest().authenticated()
 
 
@@ -41,5 +46,6 @@ public class SecurityConfiguration {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
 }

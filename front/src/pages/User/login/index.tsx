@@ -13,7 +13,9 @@ interface LoginResponse{
 
 
 export default function Login() {
-    const navigator = useNavigate();
+
+          const navigator = useNavigate();
+
     const API_URL = "http://localhost:8080/"
 
     const [formData, setFormData] = useState<LoginRequest>({
@@ -40,9 +42,9 @@ export default function Login() {
               
             );
             const token = response.data.token;
-            console.log(token)
+            localStorage.setItem("authToken",token)
             if(token !=null) {
-                navigator("/")
+                navigator("/homeAdmin")
             }
 
 
@@ -124,3 +126,4 @@ return (
 
 
 }
+ 

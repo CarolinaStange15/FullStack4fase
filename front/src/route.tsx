@@ -2,14 +2,18 @@
 import LayoutAdmin from "./components/layoutAdmin/index";
 import { Route, Routes } from "react-router-dom";
 import LayoutLogin from "./components/layoutLogin/index";
-import Login from "./pages/user/login/index";
 import LayoutUser from "./components/layoutUser/index";
-import Home from "./pages/user/home/index";
-import Usuario from "./pages/user/usuario/index";
-import EditaUsuario from "./pages/user/editaUsuario/index";
-import UsuarioAdmin from "./pages/admin/usuarioAdmin/index";
-import PetAdmin from "./pages/admin/consultaPets/index";
-import HomeAdmin from "./pages/admin/home";
+import Login from "./pages/User/login";
+import Usuario from "./pages/User/usuario";
+import EditaUsuario from "./pages/User/editaUsuario";
+import UsuarioAdmin from "./pages/Admin/cadastrarUsuario";
+import PetAdmin from "./pages/Admin/consultaPets";
+import HomeAdmin from "./pages/Admin/home";
+import CadastrarPet from "./pages/Admin/cadastrarPets";
+import DetalhesPet from "./pages/Admin/consultaPets";
+import EditarPet from "./pages/Admin/editaPet";
+import CadastrarUsuario from "./pages/Admin/cadastrarUsuario";
+
 
 
 
@@ -19,23 +23,20 @@ export default function AppRoutes() {
         <Routes>
 
             <Route element={<LayoutLogin />}>
-                <Route path="/login" element={<Login />} />
+                <Route path="/" element={<Login />} />
 
 
 
             </Route>
             <Route element={<LayoutUser />}>
 
-                <Route path="/" element={<Home />} />
+                {/* <Route path="/" element={<Home />} /> */}
                 <Route path="/usuario" element={<Usuario />} />
                 <Route path="/editarUsuario" element={<EditaUsuario />} />
                 
                 //inativa usuário
-                //pet específico
                 //pesquisa pet por especie
 
-                //cadastrar pet
-                //editar pet
 
 
             </Route>
@@ -44,6 +45,14 @@ export default function AppRoutes() {
                 <Route path="/usuarioAdmin" element={<UsuarioAdmin />} />
                 <Route path="/petAdmin" element={<PetAdmin />} />
                 <Route path="/homeAdmin" element={<HomeAdmin />} />
+                <Route path="/pets" element={<CadastrarPet />} />
+                <Route path="/pets/:id" element={<DetalhesPet />} />
+                <Route path="/pets/:id/editar" element={<EditarPet />} />
+                <Route path="/usuarios" element={<CadastrarUsuario />} />
+
+
+
+
 
 
             </Route>

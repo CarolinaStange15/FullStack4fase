@@ -1,9 +1,12 @@
 package com.senac.AulaFullStack.controller;
 
+import com.senac.AulaFullStack.dto.PetRequestDto;
 import com.senac.AulaFullStack.model.Pet;
 import com.senac.AulaFullStack.repository.PetRepository;
+import com.senac.AulaFullStack.services.PetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 public class PetController {
     @Autowired
     private PetRepository petRepository;
+    private PetService petService;
+
     //Repository
 
     @GetMapping("/{id}")
@@ -53,5 +58,23 @@ public class PetController {
 //        }
 //        return ResponseEntity.ok(pet);
 //    }
-    
+
+    @PutMapping(path = "/{id}")
+    @Operation(summary = "Atualizar Pet", description = "Método responsável por atualizar pet")
+
+    public ResponseEntity<Pet> update(@PathVariable(name = "id") Long id,
+                                      @RequestBody  PetRequestDto pet) {
+        Pet atualizado = petService.update(id, pet);
+        return ResponseEntity.ok(atualizado);
+
+    }
+
+    @DeleteMapping(path = "/{id}")
+    @Operation(summary = "Deletar Pet", description = "Método responsável por deletar pet")
+
+    public ResponseEntity<Void> delete(@PathVariable(name = "id") Long id) {
+        petService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

@@ -30,11 +30,11 @@ export default function Sidebar() {
             <ul className="btn-toggle-nav list-unstyled collapse ps-3" id="submenucadastro">
               <li>
                 
-              <Link to="/usuarioAdmin" className="nav-link text-white-50">Usuários</Link>
+              <Link to="/usuarios" className="nav-link text-white-50">Usuários</Link>
 
               </li>
               <li>
-                <Link to="/petAdmin" className="nav-link text-white-50">Pets</Link>
+                <Link to="/pets" className="nav-link text-white-50">Pets</Link>
 
               </li>
             </ul>
