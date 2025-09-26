@@ -5,9 +5,11 @@ export default function Sidebar() {
       <div className="d-flex flex-column flex-shrink-0 p-3 bg-dark text-white vh-100" style={{ width: "250px" }}>
         <div className="mb-4 text-center">
           <img
-            src=""
+            src="/img/logo.png"
             alt="logo"
             className="img-fluid mb-2"
+            width={"100px"}
+            
           />
         </div>
   
@@ -25,7 +27,7 @@ export default function Sidebar() {
               data-bs-toggle="collapse"
               aria-expanded="false"
             >
-              Cadastro
+              Cadastros
             </a>
             <ul className="btn-toggle-nav list-unstyled collapse ps-3" id="submenucadastro">
               <li>

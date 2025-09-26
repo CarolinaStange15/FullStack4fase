@@ -17,8 +17,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
 
-    @Autowired
-    JwtFilter jwtFilter;
+//    @Autowired
+//    JwtFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception{
@@ -26,24 +26,24 @@ public class SecurityConfiguration {
                         .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( auth ->
                 auth
-                        .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "*/**").permitAll() //librando o cors
-                        .requestMatchers("/swagger-resources/**").permitAll()
-                        .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers("/v3/api-docs/**").permitAll()
-                        .requestMatchers("/usuarios").hasRole("ADMIN")
-                        .requestMatchers("/especies").hasRole("ADMIN")
-                        .requestMatchers("/pets").hasRole("ADMIN")
-                        .requestMatchers("/pets/**").permitAll()
-                        .requestMatchers("/pets/**/editar").permitAll()
+//                        .requestMatchers("/auth/login").permitAll()
+//                        .requestMatchers(HttpMethod.OPTIONS, "*/**").permitAll() //librando o cors
+//                        .requestMatchers("/swagger-resources/**").permitAll()
+//                        .requestMatchers("/swagger-ui/**").permitAll()
+//                        .requestMatchers("/v3/api-docs/**").permitAll()
+//                        .requestMatchers("/usuarios").hasRole("ADMIN")
+//                        .requestMatchers("/especies").hasRole("ADMIN")
+//                        .requestMatchers("/pets").hasRole("ADMIN")
+//                        .requestMatchers("/pets/**").permitAll()
+////                        .requestMatchers("/pets/**/editar").permitAll()
 
 
 
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
 
 
                 )
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

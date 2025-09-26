@@ -43,27 +43,22 @@ export default function CadastrarUsuario() {
         event.preventDefault();
 
         try {
-            const token = localStorage.getItem("authToken");
-            if (!token) {
-                navigate("/");
-                return;
-            }
+            
 
             const response = await axios.post<UsuarioResponse>(
-                API_URL + "usuarios", // ajusta conforme teu endpoint
+                API_URL + "usuarios", 
                 formData,
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
                     },
                 }
             );
 
-
+            alert(`Usuário cadastrado com sucesso!`)
             navigate("/homeAdmin");
         } catch (error) {
-            console.error("Erro ao cadastrar usuário:", error);
+            alert(`Erro ao cadastrar usuário!`)
         }
     };
 

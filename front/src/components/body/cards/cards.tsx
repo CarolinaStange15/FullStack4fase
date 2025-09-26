@@ -14,7 +14,7 @@ export default function Cards({ id, title, text }: CardsProps) {
           <h5 className="card-title fw-bold">{title}</h5>
           <p className="card-text text-muted">{text}</p>
           <Link to={`/pets/${id}`} className="btn btn-outline-primary mt-auto">
-            Acessar
+            Conhecer
           </Link>
         </div>
       </div>
