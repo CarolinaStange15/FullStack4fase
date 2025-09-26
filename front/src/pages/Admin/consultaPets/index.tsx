@@ -20,13 +20,11 @@ export default function DetalhesPet() {
   const navigate = useNavigate(); 
 
   useEffect(() => {
-     const token = localStorage.getItem("authToken");
-    if (!token) return;
+    
 
      axios
     .get<Pet>(`http://localhost:8080/pets/${id}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
       },
     })
     .then((res) => setPet(res.data))
@@ -62,17 +60,16 @@ export default function DetalhesPet() {
   <button
     className="btn btn-danger"
     onClick={async () => {
-  const token = localStorage.getItem("authToken");
-  console.log("TOKEN:", token); // <-- teste aqui
-  if (!token) return;
+  
 
   try {
     await axios.delete(`${API_URL}pets/${pet.id}`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { },
     });
-    navigate("/pets");
+    navigate("/homeAdmin");
+    alert(`Pet deletado com sucesso!`)
   } catch (err) {
-    console.error("Erro ao excluir pet:", err);
+    alert(`Erro ao excluir pet!`)
   }
     }}
   >

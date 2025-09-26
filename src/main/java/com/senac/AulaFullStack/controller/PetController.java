@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class PetController {
     @Autowired
     private PetRepository petRepository;
+    @Autowired
     private PetService petService;
 
     //Repository

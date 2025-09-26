@@ -65,21 +65,15 @@ export default function E() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    try {
-      const token = localStorage.getItem("authToken");
-      if (!token) {
-        navigator("/");
-        return;
-      }
+    
       console.log("Payload enviado:", formData);
 
-
+      try{
       const response = await axios.post<PetsResponse>(
         API_URL + "pets",
         formData,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
 
           },
@@ -87,19 +81,14 @@ export default function E() {
       );
 
       const pet = response.data;
-      console.log(token);
       console.log("Pet cadastrado:", pet);
+            alert(`O pet ${pet.nome} foi cadastrado com sucesso!`)
 
-      if (token != null) {
-        navigator("/homeAdmin");
-      } else {
-        navigator("/")
-      }
-
-    } catch (error) {
-      console.error;
+      navigator("/homeAdmin");
+    }catch(error){
+      alert("Erro ao cadastrar PET!")
     }
-  };
+    }
 
   const [especies, setEspecies] = useState<EspecieResponse[]>([]);
 
@@ -109,7 +98,7 @@ export default function E() {
     axios
       .get<EspecieResponse[]>(API_URL + "especies", {
         headers: {
-          Authorization: `Bearer ${token}`,
+         
         },
       })
       .then((res) => setEspecies(res.data))
