@@ -1,7 +1,9 @@
 package com.senac.AulaFullStack.controller;
 
 import com.senac.AulaFullStack.dto.PetRequestDto;
+import com.senac.AulaFullStack.model.Especie;
 import com.senac.AulaFullStack.model.Pet;
+import com.senac.AulaFullStack.repository.EspecieRepository;
 import com.senac.AulaFullStack.repository.PetRepository;
 import com.senac.AulaFullStack.services.PetService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,8 +21,10 @@ public class PetController {
     private PetRepository petRepository;
     @Autowired
     private PetService petService;
+    @Autowired
+    private EspecieRepository especieRepository;
 
-    //Repository
+
 
     @GetMapping("/{id}")
     @Operation(summary = "Consultar um pet por ID", description = "Método responsável por consultar pet por um ID específco")
@@ -41,12 +45,12 @@ public class PetController {
 
     @PostMapping
     @Operation(summary = "Cadastrar Pet", description = "Método responsável por cadastrar pet")
-    public ResponseEntity<?> cadastrarPet(@RequestBody Pet pet){
-        try{
-            var petResponse = petRepository.save(pet);
+    public ResponseEntity<?> cadastrarPet(@RequestBody PetRequestDto dto) {
+        try {
+            var petResponse = petService.cadastrarPet(dto);
             return ResponseEntity.ok(petResponse);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -64,8 +68,8 @@ public class PetController {
     @Operation(summary = "Atualizar Pet", description = "Método responsável por atualizar pet")
 
     public ResponseEntity<Pet> update(@PathVariable(name = "id") Long id,
-                                      @RequestBody  PetRequestDto pet) {
-        Pet atualizado = petService.update(id, pet);
+                                      @RequestBody  PetRequestDto dto) {
+        Pet atualizado = petService.update(id, dto);
         return ResponseEntity.ok(atualizado);
 
     }

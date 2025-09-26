@@ -179,29 +179,37 @@ export default function EditarPet() {
           </select>
         </div>
 
-        <div className="mb-3 d-flex justify-content-between align-items-center">
-          <span>
-            <strong>Status:</strong> {pet.status}
-          </span>
-          <button
-            type="button"
-            className="btn btn-dark"
-            onClick={toggleStatus}
-          >
-            {pet.status === "DISPONIVEL"
-              ? "Marcar como Adotado"
-              : "Marcar como Disponível"}
-          </button>
-        </div>
+       <div className="mb-3 d-flex justify-content-between align-items-center">
+  <span>
+    <strong>Status:</strong> {pet.status}
+  </span>
+<button
+  type="button"
+  className="btn btn-primary"
+  onClick={toggleStatus}
+>
+  {pet.status === "DISPONIVEL"
+    ? "Marcar como Adotado"
+    : "Marcar como Disponível"}
+</button>
+</div>
 
-        <div className="d-flex gap-2 mt-3">
-          <button
-            type="submit"
-            className="btn btn-dark"
-          >
-            Salvar informações
-          </button>
-          </div>
+<div className="d-flex justify-content-end gap-2 mt-4">
+  <button
+    type="button"
+    className="btn btn-secondary"
+    onClick={() => navigate("/pets")}
+  >
+    Cancelar
+  </button>
+  <button
+    type="submit"
+    className="btn btn-primary"
+  >
+    Salvar informações
+  </button>
+</div>
+
       </form>
     </div>
   );

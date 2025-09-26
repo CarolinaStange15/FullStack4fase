@@ -9,22 +9,22 @@ export default function Header() {
           <a
             href="/"
             className={`nav-link d-inline-block px-3 ${
-              currentPath === "/"
+              currentPath === "/homeAdmin"
                 ? "fw-bold text-white border-bottom border-white"
                 : "text-white-50"
             }`}
           >
             Home
           </a>
-          <Link to="/EditarUsuario"
+          {/* <Link to="/EditarUsuario"
             className={`nav-link d-inline-block px-3 ${
-              currentPath === "/EditarUsuario"
+              currentPath === "/"
                 ? "fw-bold text-white border-bottom border-white"
                 : "text-white-50"
             }`}
           >
             Usuarios
-          </Link>
+          </Link> */}
         </nav>
       </header>
     );

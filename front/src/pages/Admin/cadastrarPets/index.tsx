@@ -8,10 +8,9 @@ interface PetsRequest {
   descricao: string;
   contatoAdocao: string;
   status: StatusPet;
-  especie: {
-    id: number;
-  };
+  especieId: number;
 }
+
 const enum StatusPet {
   DISPONIVEL = "DISPONIVEL",
   ADOTADO = "ADOTADO",
@@ -27,7 +26,7 @@ interface EspecieResponse {
   nome: string;
 }
 
-export default function E() {
+export default function CadastrarPet() {
   const navigator = useNavigate();
   const API_URL = "http://localhost:8080/";
 
@@ -37,26 +36,24 @@ export default function E() {
     descricao: "",
     contatoAdocao: "",
     status: StatusPet.DISPONIVEL,
-    especie: {
-      id: 0,
-    },
+    especieId: 0,
   });
+
+  const [especies, setEspecies] = useState<EspecieResponse[]>([]);
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = event.target;
 
-    if (name === "especie") {
-      setFormData((prevState) => ({
-        ...prevState,
-        especie: {
-          id: Number(value),
-        },
+    if (name === "especieId") {
+      setFormData((prev) => ({
+        ...prev,
+        especieId: Number(value),
       }));
     } else {
-      setFormData((prevState) => ({
-        ...prevState,
+      setFormData((prev) => ({
+        ...prev,
         [name]: value,
       }));
     }
@@ -65,46 +62,35 @@ export default function E() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    
-      console.log("Payload enviado:", formData);
+    console.log("Payload enviado:", formData);
 
-      try{
+    try {
       const response = await axios.post<PetsResponse>(
         API_URL + "pets",
         formData,
         {
           headers: {
             "Content-Type": "application/json",
-
           },
         }
       );
 
       const pet = response.data;
       console.log("Pet cadastrado:", pet);
-            alert(`O pet ${pet.nome} foi cadastrado com sucesso!`)
+      alert(`O pet ${pet.nome} foi cadastrado com sucesso!`);
 
       navigator("/homeAdmin");
-    }catch(error){
-      alert("Erro ao cadastrar PET!")
+    } catch (error) {
+      alert("Erro ao cadastrar PET!");
     }
-    }
-
-  const [especies, setEspecies] = useState<EspecieResponse[]>([]);
+  };
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-
     axios
-      .get<EspecieResponse[]>(API_URL + "especies", {
-        headers: {
-         
-        },
-      })
+      .get<EspecieResponse[]>(API_URL + "especies")
       .then((res) => setEspecies(res.data))
       .catch((err) => console.error(err));
   }, []);
-
 
   return (
     <div className="container mt-5">
@@ -169,14 +155,16 @@ export default function E() {
         <div className="mb-3">
           <label className="form-label text-dark">Espécie</label>
           <select
-            name="especie"
+            name="especieId"
             id="especieId"
-            value={formData.especie.id}
+            value={formData.especieId}
             onChange={handleChange}
             className="form-select"
             required
           >
-            <option value={0} disabled>Selecione uma espécie</option>
+            <option value={0} disabled>
+              Selecione uma espécie
+            </option>
             {especies.map((e) => (
               <option key={e.id} value={e.id}>
                 {e.nome}

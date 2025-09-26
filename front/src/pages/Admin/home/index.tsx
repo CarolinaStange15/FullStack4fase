@@ -13,25 +13,16 @@ interface Pet {
 }
 
 
- export default function HomeAdmin(){
-      const navigator = useNavigate();
-
-   
+ export default function HomeAdmin(){   
 
   const [pets, setPets] = useState<Pet[]>([]);
   const API_URL = "http://localhost:8080/";
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    
-    if (!token) {
-      navigator("/"); // redireciona se não tiver token
-      return;
-    }
 
     axios
       .get<Pet[]>(API_URL + "pets", {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {  },
       })
       .then((res) => setPets(res.data))
       .catch((err) => console.error(err));
@@ -45,9 +36,7 @@ interface Pet {
         <h1 className="display-4 fw-bold text-white bg-dark p-3 rounded">
           Pets Cadastrados
         </h1>
-        <p className="lead text-muted mt-3">
-          Lista de todos os pets cadastrados no sistema
-        </p>
+        
       </div>
 
       <section className="row mt-5 g-4">

@@ -9,10 +9,10 @@ import EditaUsuario from "./pages/User/editaUsuario";
 import UsuarioAdmin from "./pages/Admin/cadastrarUsuario";
 import PetAdmin from "./pages/Admin/consultaPets";
 import HomeAdmin from "./pages/Admin/home";
-import CadastrarPet from "./pages/Admin/cadastrarPets";
 import DetalhesPet from "./pages/Admin/consultaPets";
 import EditarPet from "./pages/Admin/editaPet";
 import CadastrarUsuario from "./pages/Admin/cadastrarUsuario";
+import CadastrarPet from "./pages/Admin/cadastrarPets";
 
 
 

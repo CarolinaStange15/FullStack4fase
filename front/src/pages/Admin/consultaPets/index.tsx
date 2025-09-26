@@ -38,20 +38,18 @@ export default function DetalhesPet() {
   return (
     <>
     <div className="container mt-4">
-      <div className="card">
-        <img src={pet.img} className="card-img-top" alt={pet.nome} />
-        <div className="card-body">
-          <h3 className="card-title">{pet.nome}</h3>
-          <p><strong>Idade aproximada:</strong> {pet.idadeAproximada}</p>
-          <p><strong>Descrição:</strong> {pet.descricao}</p>
-          <p><strong>Contato para adoção:</strong> {pet.contatoAdocao}</p>
-          <p><strong>Status:</strong> {pet.status}</p>
-        </div>
-      </div>
+  <div className="card shadow-sm">
+    <div className="card-body">
+      <h3 className="card-title text-dark">{pet.nome}</h3>
+      <p><strong>Idade aproximada:</strong> {pet.idadeAproximada}</p>
+      <p><strong>Descrição:</strong> {pet.descricao}</p>
+      <p><strong>Contato para adoção:</strong> {pet.contatoAdocao}</p>
+      <p><strong>Status:</strong> {pet.status}</p>
     </div>
-          <div className="d-flex gap-2 mt-3">
+
+    <div className="card-footer bg-transparent d-flex justify-content-end gap-2">
   <button
-    className="btn btn-dark"
+    className="btn btn-primary"
     onClick={() => navigate(`/pets/${pet.id}/editar`)}
   >
     Editar
@@ -60,21 +58,22 @@ export default function DetalhesPet() {
   <button
     className="btn btn-danger"
     onClick={async () => {
-  
-
-  try {
-    await axios.delete(`${API_URL}pets/${pet.id}`, {
-      headers: { },
-    });
-    navigate("/homeAdmin");
-    alert(`Pet deletado com sucesso!`)
-  } catch (err) {
-    alert(`Erro ao excluir pet!`)
-  }
+      try {
+        await axios.delete(`${API_URL}pets/${pet.id}`, {
+          headers: {},
+        });
+        alert("Pet deletado com sucesso!");
+        navigate("/homeAdmin");
+      } catch (err) {
+        alert("Erro ao excluir pet!");
+      }
     }}
   >
     Excluir
   </button>
+</div>
+
+  </div>
 </div>
 
           
