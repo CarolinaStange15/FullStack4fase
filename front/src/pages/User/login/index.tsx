@@ -1,22 +1,19 @@
 import React, { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loginSucesso } from "../../../redux/authSlice";
+import { LoginNovo, type LoginRequest } from "../../../services/authService";
 
-interface LoginRequest {
-    email: string;
-    senha: string;
-}
 
-interface LoginResponse{
-    token: string;
-}
+
 
 
 export default function Login() {
 
           const navigator = useNavigate();
+            const dispatch = useDispatch();
 
-    const API_URL = "http://localhost:8080/"
+
 
     const [formData, setFormData] = useState<LoginRequest>({
         email: '',
@@ -38,12 +35,25 @@ export default function Login() {
         event.preventDefault();
 
         try {
-            const response = await axios.post<LoginResponse>(API_URL + "auth/login",formData 
-              
-            );
-            const token = response.data.token;
-            localStorage.setItem("authToken",token)
+
+            const loginResponse = await LoginNovo(formData);
+
+    
+            const token = loginResponse.token;
+
+            console.log(token);
+
+        
             if(token !=null) {
+
+                
+        const usuarioLogin = {
+          usuario: { email: formData.email, nome: "" },
+          token: token
+        };
+        
+        dispatch(loginSucesso(usuarioLogin));
+
                 navigator("/homeAdmin")
             }
 

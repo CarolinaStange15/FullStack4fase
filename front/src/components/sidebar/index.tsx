@@ -41,6 +41,16 @@ export default function Sidebar() {
               </li>
             </ul>
           </li>
+          
+           <li className="nav-item">
+            <Link to="/usuariosConsultar" className="nav-link text-white">
+              Lista Usuários
+            </Link>
+          </li>
+
+
+
+
         </ul>
       </div>
     );

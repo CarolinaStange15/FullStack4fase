@@ -49,6 +49,7 @@ export default function AppRoutes() {
                 <Route path="/pets/:id" element={<DetalhesPet />} />
                 <Route path="/pets/:id/editar" element={<EditarPet />} />
                 <Route path="/usuarios" element={<CadastrarUsuario />} />
+                <Route path="/usuariosConsultar" element={<Usuario />} />
 
 
 
