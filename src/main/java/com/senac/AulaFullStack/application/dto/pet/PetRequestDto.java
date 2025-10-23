@@ -1,8 +1,10 @@
-package com.senac.AulaFullStack.application.dto;
+package com.senac.AulaFullStack.application.dto.pet;
 
 import com.senac.AulaFullStack.domain.entity.Pet;
 
-public record PetRequestDto(String nome,
+public record PetRequestDto(
+        Long id,
+        String nome,
                             String idadeAproximada,
                             String descricao,
                             String contatoAdocao,

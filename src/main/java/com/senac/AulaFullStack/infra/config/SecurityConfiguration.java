@@ -31,7 +31,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/swagger-resources/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
-                        .requestMatchers("/usuarios/**").hasRole("USER")
+                        .requestMatchers("/usuarios/**").hasRole("ADMIN")
                         .requestMatchers("/usuarios").permitAll()
                         .requestMatchers("/especies").hasRole("ADMIN")
                         .requestMatchers("/pets").hasRole("ADMIN")

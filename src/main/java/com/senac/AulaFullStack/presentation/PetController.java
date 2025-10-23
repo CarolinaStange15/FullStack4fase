@@ -1,6 +1,7 @@
 package com.senac.AulaFullStack.presentation;
 
-import com.senac.AulaFullStack.application.dto.PetRequestDto;
+import com.senac.AulaFullStack.application.dto.pet.PetRequestDto;
+import com.senac.AulaFullStack.application.dto.pet.PetResponseDto;
 import com.senac.AulaFullStack.domain.entity.Pet;
 import com.senac.AulaFullStack.domain.repository.EspecieRepository;
 import com.senac.AulaFullStack.domain.repository.PetRepository;
@@ -10,6 +11,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/pets")
@@ -26,8 +29,9 @@ public class PetController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Consultar um pet por ID", description = "Método responsável por consultar pet por um ID específco")
-    public ResponseEntity<?> consultaPorId(@PathVariable Long id){
-        var pet = petRepository.findById(id).orElse(null);
+    public ResponseEntity<PetResponseDto> consultaPorId(@PathVariable Long id){
+        var pet = petService.consultarPorId(id);
+
         if (pet == null){
             return ResponseEntity.notFound().build();
         }
@@ -36,16 +40,16 @@ public class PetController {
 
     @GetMapping
     @Operation(summary = "Consultar pets", description = "Método responsável por consultar todos os Pets")
-    public ResponseEntity<?> consultaTodos(){
+    public ResponseEntity<List<PetResponseDto>> consultaTodos(){
 
-        return ResponseEntity.ok(petRepository.findAll());
+        return ResponseEntity.ok(petService.consultarTodosSemFiltro());
     }
 
     @PostMapping
     @Operation(summary = "Cadastrar Pet", description = "Método responsável por cadastrar pet")
-    public ResponseEntity<?> cadastrarPet(@RequestBody PetRequestDto dto) {
+    public ResponseEntity<?> cadastrarPet(@RequestBody PetRequestDto pet) {
         try {
-            var petResponse = petService.cadastrarPet(dto);
+            var petResponse = petService.salvarPet(pet);
             return ResponseEntity.ok(petResponse);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -62,15 +66,15 @@ public class PetController {
 //        return ResponseEntity.ok(pet);
 //    }
 
-    @PutMapping(path = "/{id}")
-    @Operation(summary = "Atualizar Pet", description = "Método responsável por atualizar pet")
-
-    public ResponseEntity<Pet> update(@PathVariable(name = "id") Long id,
-                                      @RequestBody  PetRequestDto dto) {
-        Pet atualizado = petService.update(id, dto);
-        return ResponseEntity.ok(atualizado);
-
-    }
+//    @PutMapping(path = "/{id}")
+//    @Operation(summary = "Atualizar Pet", description = "Método responsável por atualizar pet")
+//
+//    public ResponseEntity<Pet> update(@PathVariable(name = "id") Long id,
+//                                      @RequestBody  PetRequestDto dto) {
+//        Pet atualizado = petService.update(id, dto);
+//        return ResponseEntity.ok(atualizado);
+//
+//    }
 
     @DeleteMapping(path = "/{id}")
     @Operation(summary = "Deletar Pet", description = "Método responsável por deletar pet")

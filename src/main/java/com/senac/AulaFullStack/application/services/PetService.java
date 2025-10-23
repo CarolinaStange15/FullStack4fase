@@ -1,13 +1,20 @@
 package com.senac.AulaFullStack.application.services;
 
-import com.senac.AulaFullStack.application.dto.PetRequestDto;
+import com.senac.AulaFullStack.application.dto.pet.PetRequestDto;
+import com.senac.AulaFullStack.application.dto.pet.PetResponseDto;
+import com.senac.AulaFullStack.application.dto.usuario.UsuarioResponseDto;
 import com.senac.AulaFullStack.domain.entity.Especie;
 import com.senac.AulaFullStack.domain.entity.Pet;
 import com.senac.AulaFullStack.domain.repository.EspecieRepository;
 import com.senac.AulaFullStack.domain.repository.PetRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class PetService {
@@ -26,36 +33,38 @@ public class PetService {
             this.especieRepository = especieRepository;
         }
 
-        public Pet cadastrarPet(PetRequestDto dto) {
-            Especie especie = especieRepository.findById(dto.especieId())
-                    .orElseThrow(() -> new RuntimeException("Espécie não encontrada"));
 
-            Pet pet = new Pet();
-            pet.setNome(dto.nome());
-            pet.setIdadeAproximada(dto.idadeAproximada());
-            pet.setDescricao(dto.descricao());
-            pet.setContatoAdocao(dto.contatoAdocao());
-            pet.setStatus(dto.status());
-            pet.setEspecie(especie);
-
-            return petRepository.save(pet);
+        public PetResponseDto consultarPorId(Long id){
+            return petRepository.findById(id)
+                    .map(PetResponseDto::new)
+                    .orElse(null);
         }
 
+        public List<PetResponseDto> consultarTodosSemFiltro(){
+            return petRepository.findAll().stream().map(PetResponseDto::new).collect(Collectors.toList());
+        }
 
+    @Transactional
+    public PetResponseDto salvarPet(PetRequestDto petRequest) {
+        // busca a espécie no banco
+        Especie especie = especieRepository.findById(petRequest.especieId())
+                .orElseThrow(() -> new RuntimeException("Espécie não encontrada"));
 
-    public Pet update(Long id, PetRequestDto petDto) {
-        Pet pet = petRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pet não encontrado"));
+        var pet = petRepository.findById(petRequest.id())
+                .map(p -> {
+                    p.setNome(petRequest.nome());
+                    p.setIdadeAproximada(petRequest.idadeAproximada());
+                    p.setDescricao(petRequest.descricao());
+                    p.setContatoAdocao(petRequest.contatoAdocao());
+                    p.setStatus(petRequest.status());
+                    p.setEspecie(especie);
+                    return p;
+                })
+                .orElse(new Pet(petRequest, especie));
 
-        pet.setNome(petDto.nome());
-        pet.setIdadeAproximada(petDto.idadeAproximada());
-        pet.setDescricao(petDto.descricao());
-        pet.setContatoAdocao(petDto.contatoAdocao());
-        pet.setStatus(petDto.status());
-
-        return petRepository.save(pet);
+        petRepository.save(pet);
+        return pet.toDtoResponse();
     }
-
     public void delete(long id) {
         petRepository.deleteById(id);
     }
