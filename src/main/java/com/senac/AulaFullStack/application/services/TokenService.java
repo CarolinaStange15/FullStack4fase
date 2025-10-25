@@ -5,6 +5,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.senac.AulaFullStack.application.dto.login.LoginRequestDto;
+import com.senac.AulaFullStack.application.dto.usuario.UsuarioPrincipalDto;
 import com.senac.AulaFullStack.domain.entity.Token;
 import com.senac.AulaFullStack.domain.entity.Usuario;
 import com.senac.AulaFullStack.domain.repository.TokenRepository;
@@ -53,7 +54,7 @@ public class TokenService {
         return token;
     }
 
-    public Usuario validarToken(String token){
+    public UsuarioPrincipalDto validarToken(String token){
         Algorithm algorithm = Algorithm.HMAC256(secret);
         JWTVerifier verifier = JWT.require(algorithm)
                 .withIssuer(emissor)
@@ -65,7 +66,7 @@ public class TokenService {
             throw new IllegalArgumentException("Token inválido");
         }
 
-        return tokenResult.getUsuario();
+        return new UsuarioPrincipalDto(tokenResult.getUsuario());
 
 
     }

@@ -25,10 +25,13 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI(); //cara que retorna os métodos
         if (path.equals("/auth/login")
+                || path.startsWith("auth/esqueciSenha")
+                || path.startsWith("auth/registrarnovasenha")
                 || path.startsWith("/swagger-resources")
                 || path.startsWith("/v3/api-docs")
                 || path.startsWith("/webjars")
                 || path.startsWith("/swagger-ui")
+
         ) {
             filterChain.doFilter(request, response);
             return;
@@ -43,8 +46,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
 
                 var autorizacao = new UsernamePasswordAuthenticationToken(
-                        usuario.getEmail(),null,
-                        usuario.getAuthorities()); //pegando autorizações do usuários
+                        usuario,null,
+                        usuario.autorizacao()); //pegando autorizações do usuários
                 SecurityContextHolder.getContext().setAuthentication(autorizacao);
 
                 filterChain.doFilter(request , response);

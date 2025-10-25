@@ -27,6 +27,9 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests( auth ->
                 auth
                         .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/auth/registrarnovasenha").permitAll()
+                        .requestMatchers("/auth/esquecisenha").permitAll()
+
                         .requestMatchers(HttpMethod.OPTIONS, "*/**").permitAll() //librando o cors
                         .requestMatchers("/swagger-resources/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
@@ -36,11 +39,10 @@ public class SecurityConfiguration {
                         .requestMatchers("/especies").hasRole("ADMIN")
                         .requestMatchers("/pets").hasRole("ADMIN")
                         .requestMatchers("/pets/**").permitAll()
-                        .requestMatchers("/pets/**/editar").permitAll()
 
-
-
-
+                       // .requestMatchers("/pets/**/editar").permitAll()
+                        //.requestMatchers("/auth/recuperarsenha/envio").hasRole("ADMIN")
+                        .anyRequest().authenticated()
 
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
