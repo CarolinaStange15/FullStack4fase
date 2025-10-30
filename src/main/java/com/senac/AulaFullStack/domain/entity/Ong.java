@@ -1,7 +1,11 @@
 package com.senac.AulaFullStack.domain.entity;
 
+import com.senac.AulaFullStack.application.dto.ong.OngRequestDto;
+import com.senac.AulaFullStack.application.dto.ong.OngResponseDto;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -17,10 +21,24 @@ public class Ong {
     private Long id;
     private String nome;
     private String descricao;
+    private LocalDateTime dataCadastro;
 
-    @ManyToOne
-    @JoinColumn(name = "endereco_id")
-    private Endereco endereco;
+    public Ong(OngRequestDto ongRequest) {
+        this.setNome(ongRequest.nome());
+        this.setDescricao(ongRequest.descricao());
+        if (this.getDataCadastro() == null){
+            this.setDataCadastro(LocalDateTime.now());
+        }
+
+    }
+
+    public OngResponseDto toDtoResponse() {
+        return new OngResponseDto(this);
+    }
+
+//    @ManyToOne
+//    @JoinColumn(name = "endereco_id")
+//    private Endereco endereco;
 
 
 

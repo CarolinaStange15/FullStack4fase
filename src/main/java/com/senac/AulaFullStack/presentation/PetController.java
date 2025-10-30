@@ -28,7 +28,7 @@ public class PetController {
 
 
     @GetMapping("/{id}")
-    @Operation(summary = "Consultar um pet por ID", description = "Método responsável por consultar pet por um ID específco")
+    @Operation(summary = "Consultar um pet por ID", description = "Método responsável por consultar pet por um ID específico")
     public ResponseEntity<PetResponseDto> consultaPorId(@PathVariable Long id){
         var pet = petService.consultarPorId(id);
 
