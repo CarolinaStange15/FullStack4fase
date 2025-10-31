@@ -44,6 +44,10 @@ public Usuario(UsuarioRequestDto usuarioRequest){
 private String tokenSenha;
     private String role;
 
+    @ManyToOne
+    @JoinColumn(name="ong_id")
+    private Ong ong;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if ("ADMIN".equals(this.role)) {

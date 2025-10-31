@@ -42,9 +42,9 @@ public class Pet {
     @JoinColumn(name = "especie_id", nullable = false)
     private Especie especie;
 
-//    @ManyToOne
-//    @JoinColumn(name="ong_id")
-//    private Ong ong;
+   @ManyToOne
+   @JoinColumn(name="ong_id")
+   private Ong ong;
 
 
     public enum StatusPet {
