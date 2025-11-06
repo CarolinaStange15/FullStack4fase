@@ -4,11 +4,13 @@ package com.senac.AulaFullStack.presentation;
 import com.senac.AulaFullStack.application.dto.ong.OngRequestDto;
 import com.senac.AulaFullStack.application.dto.ong.OngResponseDto;
 import com.senac.AulaFullStack.application.services.OngService;
+import com.senac.AulaFullStack.domain.entity.Usuario;
 import com.senac.AulaFullStack.domain.repository.OngRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.plaf.PanelUI;
@@ -60,6 +62,12 @@ public class OngController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/solicitarCadastro")
+    public ResponseEntity<OngResponseDto> solicitarOng(@RequestBody OngRequestDto dto,
+                                                       @AuthenticationPrincipal Usuario usuario) {
+        OngResponseDto response = ongService.solicitarOng(dto, usuario);
+        return ResponseEntity.ok(response);
+    }
 
 
 

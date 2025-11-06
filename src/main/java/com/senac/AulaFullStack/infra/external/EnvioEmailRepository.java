@@ -68,6 +68,57 @@ private JavaMailSender javaMailSender;
         }
     }
 
+    @Override
+    public void enviarEmailSolicitacaoCadastroOng(String para, String assunto, String texto) {
+        try{
+
+            MimeMessage mensagem = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mensagem, true, "UTF-8");
+            String htmlTemplate = carregarTemplateEmail();
+
+            String htmlFinal = htmlTemplate
+                    .replace("${mensagem}", texto)
+                    .replace("${dataEnvio}",String.valueOf(LocalDateTime.now()));
+
+            helper.setFrom("nao-responda@gmail.com");
+            helper.setTo(para);
+            helper.setSubject(assunto);
+            helper.setText(htmlFinal, true);
+
+            javaMailSender.send(mensagem);
+
+
+
+        } catch (Exception e){
+            throw new RuntimeException("Erro ao enviar e-mail");
+        }
+    }
+
+    @Override
+    public void enviarEmailAprovacaoCadastroOng(String para, String assunto, String texto) {
+
+    }
+
+    @Override
+    public void enviarEmailRecusaCadastroOng(String para, String assunto, String texto) {
+
+    }
+
+    @Override
+    public void enviarEmailSolicitacaoAdocaoAnimal(String para, String assunto, String texto) {
+
+    }
+
+    @Override
+    public void enviarEmailAprovacaoAdocaoAnimal(String para, String assunto, String texto) {
+
+    }
+
+    @Override
+    public void enviarEmailRecusaAdocaoAnimal(String para, String assunto, String texto) {
+
+    }
+
     private String carregarTemplateEmail() throws IOException {
         ClassPathResource resource = new ClassPathResource("/templates/email-template.html");
         byte[] bytes = Files.readAllBytes(resource.getFile().toPath());

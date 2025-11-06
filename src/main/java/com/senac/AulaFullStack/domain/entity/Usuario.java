@@ -40,6 +40,7 @@ public Usuario(UsuarioRequestDto usuarioRequest){
     private String cpf;
     private String senha;
     private String email;
+    private String telefone;
     private LocalDateTime dataCadastro;
 private String tokenSenha;
     private String role;

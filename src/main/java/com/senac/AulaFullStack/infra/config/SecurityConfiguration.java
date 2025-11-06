@@ -38,6 +38,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/usuarios").permitAll()
                         .requestMatchers("/especies").hasRole("ADMIN")
                         .requestMatchers("/pets").hasRole("ADMIN")
+
                         .requestMatchers("/pets/**").permitAll()
 
                        // .requestMatchers("/pets/**/editar").permitAll()

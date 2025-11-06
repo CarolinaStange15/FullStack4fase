@@ -3,6 +3,7 @@ package com.senac.AulaFullStack.domain.entity;
 import com.senac.AulaFullStack.application.dto.ong.OngRequestDto;
 import com.senac.AulaFullStack.application.dto.ong.OngResponseDto;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -21,7 +22,11 @@ public class Ong {
     private Long id;
     private String nome;
     private String descricao;
+    private String email;
+    private String cnpj;
+    private String telefone;
     private LocalDateTime dataCadastro;
+    private String tokenCriacao;
 
     public Ong(OngRequestDto ongRequest) {
         this.setNome(ongRequest.nome());
@@ -31,6 +36,21 @@ public class Ong {
         }
 
     }
+    public enum StatusOng {
+        PENDENTE,
+        APROVADA,
+        REPROVADA
+    }
+
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id_origem")
+    private Usuario usuario;
+
+    @Enumerated(EnumType.STRING)
+    private Ong.StatusOng status;
+
+
 
     public OngResponseDto toDtoResponse() {
         return new OngResponseDto(this);
