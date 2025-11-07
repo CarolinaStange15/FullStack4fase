@@ -21,12 +21,17 @@ import java.util.List;
 @Table(name= "usuarios")
 public class Usuario implements UserDetails {
 
-public Usuario(UsuarioRequestDto usuarioRequest){
+public Usuario(UsuarioRequestDto usuarioRequest, Ong ong){
     this.setCpf(usuarioRequest.cpf());
     this.setNome(usuarioRequest.nome());
     this.setEmail(usuarioRequest.email());
     this.setSenha(usuarioRequest.senha());
     this.setRole(usuarioRequest.role());
+    this.setTelefone(usuarioRequest.telefone());
+    this.setOng(ong);
+    if (ong != null){
+        this.setOng(ong);
+    }
     if (this.getDataCadastro() == null){
         this.setDataCadastro(LocalDateTime.now());
     }
@@ -42,11 +47,11 @@ public Usuario(UsuarioRequestDto usuarioRequest){
     private String email;
     private String telefone;
     private LocalDateTime dataCadastro;
-private String tokenSenha;
+    private String tokenSenha;
     private String role;
 
     @ManyToOne
-    @JoinColumn(name="ong_id")
+    @JoinColumn(name="ong_id",nullable = true)
     private Ong ong;
 
     @Override

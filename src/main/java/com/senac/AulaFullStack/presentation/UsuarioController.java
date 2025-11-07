@@ -46,7 +46,6 @@ public class UsuarioController {
     public ResponseEntity<List<UsuarioResponseDto>> consultarTodos(){
 
         return ResponseEntity.ok(usuarioService.consultarTodosSemFiltro());
-//
     }
 
     @PostMapping

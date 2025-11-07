@@ -7,8 +7,10 @@ import com.senac.AulaFullStack.application.dto.usuario.RegistrarNovaSenhaDto;
 import com.senac.AulaFullStack.application.dto.usuario.UsuarioPrincipalDto;
 import com.senac.AulaFullStack.application.dto.usuario.UsuarioRequestDto;
 import com.senac.AulaFullStack.application.dto.usuario.UsuarioResponseDto;
+import com.senac.AulaFullStack.domain.entity.Ong;
 import com.senac.AulaFullStack.domain.entity.Usuario;
 import com.senac.AulaFullStack.domain.interfaces.IEnvioEmail;
+import com.senac.AulaFullStack.domain.repository.OngRepository;
 import com.senac.AulaFullStack.domain.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class UsuarioService {
     @Autowired
     private IEnvioEmail iEnvioEmail;
 
+    @Autowired
+    private OngRepository ongRepository;
+
     public boolean validarSenha(LoginRequestDto login){
         return usuarioRepository.existsUsuarioByEmailContainingAndSenha(login.email(), login.senha());
     }
@@ -45,15 +50,27 @@ public class UsuarioService {
     }
 
     @Transactional
-    public UsuarioResponseDto salvarUsuario(UsuarioRequestDto usuarioRequest){
+    public UsuarioResponseDto salvarUsuario(UsuarioRequestDto usuarioRequest) {
+
+        Ong ong;
+        if (usuarioRequest.ongId() != null){
+             ong = ongRepository.findById(usuarioRequest.ongId()).orElse(null);
+        } else {
+            ong = null;
+        }
+
         var usuario = usuarioRepository.findByCpf(usuarioRequest.cpf())
                 .map(u -> {
             u.setNome(usuarioRequest.nome());
             u.setSenha(usuarioRequest.senha());
             u.setRole(usuarioRequest.role());
             u.setEmail(usuarioRequest.email());
+            u.setTelefone(usuarioRequest.telefone());
+            if(ong !=null)
+                u.setOng(ong);
+
             return u;
-        }) .orElse(new Usuario(usuarioRequest));
+        }) .orElse(new Usuario(usuarioRequest,ong));
 
         usuarioRepository.save(usuario);
         return usuario.toDtoResponse();

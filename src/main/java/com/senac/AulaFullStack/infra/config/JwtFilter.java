@@ -1,4 +1,4 @@
-package com.senac.AulaFullStack.config;
+package com.senac.AulaFullStack.infra.config;
 
 
 import com.senac.AulaFullStack.application.services.TokenService;
@@ -26,6 +26,8 @@ public class JwtFilter extends OncePerRequestFilter {
         String path = request.getRequestURI(); //cara que retorna os métodos
         if (path.equals("/auth/login")
                 || path.startsWith("auth/esqueciSenha")
+                || path.startsWith("/usuarios")
+
                 || path.startsWith("auth/registrarnovasenha")
                 || path.startsWith("/swagger-resources")
                 || path.startsWith("/v3/api-docs")
@@ -37,8 +39,6 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
         try {
-
-
             String header = request.getHeader("Authorization"); //qual o padrão de autenticação?
             if (header != null && header.startsWith("Bearer ")) {
                 String token = header.replace("Bearer ", "");
@@ -53,8 +53,8 @@ public class JwtFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request , response);
 
             } else {
-//                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//                response.getWriter().write("Ta loko meu? ta invadindo");
+               response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Ta loko meu? ta invadindo");
                 filterChain.doFilter(request , response);
 
                 return;

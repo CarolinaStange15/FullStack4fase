@@ -9,6 +9,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -18,7 +19,7 @@ public class SecurityConfiguration {
 
 
     @Autowired
-    com.senac.AulaFullStack.config.JwtFilter jwtFilter;
+    JwtFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception{
@@ -30,12 +31,12 @@ public class SecurityConfiguration {
                         .requestMatchers("/auth/registrarnovasenha").permitAll()
                         .requestMatchers("/auth/esquecisenha").permitAll()
 
-                        .requestMatchers(HttpMethod.OPTIONS, "*/**").permitAll() //librando o cors
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() //librando o cors
                         .requestMatchers("/swagger-resources/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
-                        .requestMatchers("/usuarios/**").hasRole("ADMIN")
-                        .requestMatchers("/usuarios").permitAll()
+                     //   .requestMatchers("/usuarios/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST , "/usuarios").permitAll()
                         .requestMatchers("/especies").hasRole("ADMIN")
                         .requestMatchers("/pets").hasRole("ADMIN")
 
