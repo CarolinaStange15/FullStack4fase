@@ -5,11 +5,14 @@ import com.senac.AulaFullStack.application.dto.pet.PetResponseDto;
 import com.senac.AulaFullStack.application.dto.usuario.UsuarioResponseDto;
 import com.senac.AulaFullStack.domain.entity.Especie;
 import com.senac.AulaFullStack.domain.entity.Pet;
+import com.senac.AulaFullStack.domain.entity.Usuario;
 import com.senac.AulaFullStack.domain.repository.EspecieRepository;
 import com.senac.AulaFullStack.domain.repository.PetRepository;
+import com.senac.AulaFullStack.domain.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +26,7 @@ public class PetService {
     @Autowired
     private PetRepository petRepository;
     @Autowired
+
     private EspecieRepository especieRepository;
 
 
@@ -68,4 +72,30 @@ public class PetService {
     public void delete(long id) {
         petRepository.deleteById(id);
     }
+
+
+    //Filtrando por ONGID
+
+    public List<PetResponseDto> consultarTodosPorOng() {
+        Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        if (usuarioLogado.getOng() == null) {
+            return petRepository.findAll()
+                    .stream()
+                    .map(PetResponseDto::new)
+                    .collect(Collectors.toList());
+        }
+
+
+        Long ongId = usuarioLogado.getOng().getId();
+        return petRepository.findByOngId(ongId)
+                .stream()
+                .map(PetResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+
+
 }

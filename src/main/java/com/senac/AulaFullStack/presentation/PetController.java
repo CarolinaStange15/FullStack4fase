@@ -26,6 +26,12 @@ public class PetController {
     private EspecieRepository especieRepository;
 
 
+    @GetMapping(path = "/meus-pets")
+    @Operation(summary = "Consultar pets por ONG ID", description = "Método responsável por consultar todos os Pets por ID de ONG do usuário")
+    public ResponseEntity<List<PetResponseDto>> consultaTodosPorOngId(){
+
+        return ResponseEntity.ok(petService.consultarTodosPorOng());
+    }
 
     @GetMapping("/{id}")
     @Operation(summary = "Consultar um pet por ID", description = "Método responsável por consultar pet por um ID específico")
@@ -83,6 +89,7 @@ public class PetController {
         petService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
 
 
 

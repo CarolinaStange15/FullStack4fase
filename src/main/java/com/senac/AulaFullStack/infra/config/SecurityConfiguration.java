@@ -37,10 +37,10 @@ public class SecurityConfiguration {
                         .requestMatchers("/v3/api-docs/**").permitAll()
                      //   .requestMatchers("/usuarios/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST , "/usuarios").permitAll()
-                        .requestMatchers("/especies").hasRole("ADMIN")
-                        .requestMatchers("/pets").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/pets/meus-pets").authenticated()
 
-                        .requestMatchers("/pets/**").permitAll()
+                        .requestMatchers("/pets").permitAll()
+
 
                        // .requestMatchers("/pets/**/editar").permitAll()
                         //.requestMatchers("/auth/recuperarsenha/envio").hasRole("ADMIN")
