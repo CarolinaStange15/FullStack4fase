@@ -31,10 +31,17 @@ public class Ong {
     public Ong(OngRequestDto ongRequest) {
         this.setNome(ongRequest.nome());
         this.setDescricao(ongRequest.descricao());
+        this.setEmail(ongRequest.email());
+        this.setCnpj(ongRequest.cnpj());
+        this.setTelefone(ongRequest.telefone());
+        this.setStatus(ongRequest.status());
         if (this.getDataCadastro() == null){
             this.setDataCadastro(LocalDateTime.now());
         }
 
+        if (this.getStatus()== null){
+            this.setStatus(StatusOng.PENDENTE);
+        }
     }
     public enum StatusOng {
         PENDENTE,
@@ -48,7 +55,7 @@ public class Ong {
     private Usuario usuario;
 
     @Enumerated(EnumType.STRING)
-    private Ong.StatusOng status;
+    private StatusOng status;
 
 
 

@@ -2,6 +2,7 @@ package com.senac.AulaFullStack.presentation;
 
 import com.senac.AulaFullStack.application.dto.pet.PetRequestDto;
 import com.senac.AulaFullStack.application.dto.pet.PetResponseDto;
+import com.senac.AulaFullStack.application.dto.usuario.UsuarioPrincipalDto;
 import com.senac.AulaFullStack.domain.entity.Pet;
 import com.senac.AulaFullStack.domain.repository.EspecieRepository;
 import com.senac.AulaFullStack.domain.repository.PetRepository;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,9 +30,9 @@ public class PetController {
 
     @GetMapping(path = "/meus-pets")
     @Operation(summary = "Consultar pets por ONG ID", description = "Método responsável por consultar todos os Pets por ID de ONG do usuário")
-    public ResponseEntity<List<PetResponseDto>> consultaTodosPorOngId(){
+    public ResponseEntity<List<PetResponseDto>> consultaTodosPorOngId(@AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipalDto){
 
-        return ResponseEntity.ok(petService.consultarTodosPorOng());
+        return ResponseEntity.ok(petService.consultarTodosPorOng(usuarioPrincipalDto));
     }
 
     @GetMapping("/{id}")
@@ -53,9 +55,9 @@ public class PetController {
 
     @PostMapping
     @Operation(summary = "Cadastrar Pet", description = "Método responsável por cadastrar pet")
-    public ResponseEntity<?> cadastrarPet(@RequestBody PetRequestDto pet) {
+    public ResponseEntity<?> cadastrarPet(@RequestBody PetRequestDto pet, @AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipalDto) {
         try {
-            var petResponse = petService.salvarPet(pet);
+            var petResponse = petService.salvarPet(pet,usuarioPrincipalDto);
             return ResponseEntity.ok(petResponse);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -6,7 +6,8 @@ public record OngResponseDto(
         Long id,
         String nome,
         String descricao,
-        Ong.StatusOng status, String tokenCriacao) {
+        Ong.StatusOng status,
+        String tokenCriacao) {
 
     public OngResponseDto(Ong ong) {
         this(

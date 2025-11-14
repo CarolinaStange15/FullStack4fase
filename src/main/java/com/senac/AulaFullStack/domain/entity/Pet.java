@@ -17,15 +17,19 @@ import java.time.LocalDateTime;
 public class Pet {
 
 
-    public Pet (PetRequestDto petRequest, Especie especie){
+    public Pet (PetRequestDto petRequest, Especie especie, Ong ong){
         this.setNome(petRequest.nome());
         this.setDescricao(petRequest.descricao());
         this.setEspecie(especie);
+        this.setOng(ong);
         this.setContatoAdocao(petRequest.contatoAdocao());
         this.setIdadeAproximada(petRequest.idadeAproximada());
         this.setStatus(petRequest.status());
         if (this.getDataCadastro() == null) {
             this.setDataCadastro(LocalDateTime.now());
+        }
+        if (this.getStatus() == null){
+            this.setStatus(StatusPet.DISPONIVEL);
         }
     }
 

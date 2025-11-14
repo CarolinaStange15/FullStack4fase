@@ -50,7 +50,13 @@ public class JwtFilter extends OncePerRequestFilter {
                         usuario.autorizacao()); //pegando autorizações do usuários
                 SecurityContextHolder.getContext().setAuthentication(autorizacao);
 
-                filterChain.doFilter(request , response);
+                try {
+                    filterChain.doFilter(request, response);
+                }catch (Exception e){
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    response.getWriter().write(e.getMessage());
+                    return;
+                }
 
             } else {
                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

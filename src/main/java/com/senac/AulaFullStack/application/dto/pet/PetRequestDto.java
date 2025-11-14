@@ -9,5 +9,6 @@ public record PetRequestDto(
                             String descricao,
                             String contatoAdocao,
                             Long especieId,
-                            Pet.StatusPet status) {
+                            Pet.StatusPet status
+        ) {
 }

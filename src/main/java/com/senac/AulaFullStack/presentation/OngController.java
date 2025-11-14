@@ -65,6 +65,7 @@ public class OngController {
     @PostMapping("/solicitarCadastro")
     public ResponseEntity<OngResponseDto> solicitarOng(@RequestBody OngRequestDto dto,
                                                        @AuthenticationPrincipal Usuario usuario) {
+        //Trocar aqui igual no pet
         OngResponseDto response = ongService.solicitarOng(dto, usuario);
         return ResponseEntity.ok(response);
     }
