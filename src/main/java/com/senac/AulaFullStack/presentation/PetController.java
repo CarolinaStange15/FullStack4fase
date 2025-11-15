@@ -61,6 +61,7 @@ public class PetController {
             return ResponseEntity.ok(petResponse);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+
         }
     }
 

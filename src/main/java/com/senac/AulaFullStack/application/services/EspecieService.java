@@ -1,6 +1,7 @@
 package com.senac.AulaFullStack.application.services;
 
 import com.senac.AulaFullStack.application.dto.especie.EspecieRequestDto;
+import com.senac.AulaFullStack.application.dto.especie.EspecieResponseDto;
 import com.senac.AulaFullStack.application.dto.ong.OngRequestDto;
 import com.senac.AulaFullStack.application.dto.ong.OngResponseDto;
 import com.senac.AulaFullStack.domain.entity.Especie;
@@ -18,7 +19,7 @@ public class EspecieService {
     @Autowired
     private EspecieRepository especieRepository;
 
-    public OngResponseDto salvarEspecie(EspecieRequestDto especieRequest) {
+    public EspecieResponseDto salvarEspecie(EspecieRequestDto especieRequest) {
         Especie especie = especieRepository.findById(especieRequest.id())
                 .map(e -> {
                     e.setNome(especieRequest.nome());

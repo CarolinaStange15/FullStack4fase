@@ -14,6 +14,7 @@ public record OngResponseDto(
                 ong.getId(),
                 ong.getNome(),
                 ong.getDescricao(),
-                ong.getStatus(), ong.getTokenCriacao());
+                ong.getStatus(),
+                ong.getTokenCriacao());
     }
 }

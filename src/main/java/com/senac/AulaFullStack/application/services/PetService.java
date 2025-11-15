@@ -57,29 +57,41 @@ public class PetService {
         }
 
     @Transactional
-    public PetResponseDto salvarPet(PetRequestDto petRequest,UsuarioPrincipalDto usuarioPrincipalDto) {
-        // busca a espécie no banco
+    public PetResponseDto salvarPet(PetRequestDto petRequest, UsuarioPrincipalDto usuarioPrincipalDto) {
+
+        // 1. Buscar espécie
         Especie especie = especieRepository.findById(petRequest.especieId())
                 .orElseThrow(() -> new RuntimeException("Espécie não encontrada"));
 
-        var usuarioLogado = usuarioRepository.findById(usuarioPrincipalDto.id()).orElse(null);
+        // 2. Buscar usuário logado
+        var usuarioLogado = usuarioRepository.findById(usuarioPrincipalDto.id())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        var pet = petRepository.findById(petRequest.id())
-                .map(p -> {
-                    p.setNome(petRequest.nome());
-                    p.setIdadeAproximada(petRequest.idadeAproximada());
-                    p.setDescricao(petRequest.descricao());
-                    p.setContatoAdocao(petRequest.contatoAdocao());
-                    p.setStatus(petRequest.status());
-                    p.setEspecie(especie);
-                    p.setOng(usuarioLogado.getOng());
-                    return p;
-                })
-                .orElse(new Pet(petRequest, especie,usuarioLogado.getOng()));
+        // 3. SE NÃO TEM ID → CRIA PET NOVO
+        if (petRequest.id() == null) {
+
+            Pet pet = new Pet(petRequest, especie, usuarioLogado.getOng());
+            petRepository.save(pet);
+
+            return pet.toDtoResponse();
+        }
+
+        // 4. SE TEM ID → UPDATE
+        Pet pet = petRepository.findById(petRequest.id())
+                .orElseThrow(() -> new RuntimeException("Pet não encontrado"));
+
+        pet.setNome(petRequest.nome());
+        pet.setIdadeAproximada(petRequest.idadeAproximada());
+        pet.setDescricao(petRequest.descricao());
+        pet.setContatoAdocao(petRequest.contatoAdocao());
+        pet.setStatus(petRequest.status());
+        pet.setEspecie(especie);
+        pet.setOng(usuarioLogado.getOng());
 
         petRepository.save(pet);
         return pet.toDtoResponse();
     }
+
     public void delete(long id) {
         petRepository.deleteById(id);
     }

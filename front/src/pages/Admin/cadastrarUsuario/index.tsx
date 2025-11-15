@@ -10,6 +10,7 @@ export default function CadastrarUsuario() {
     cpf: "",
     email: "",
     senha: "",
+    telefone: "",
     role: "USER",
   });
 
@@ -93,8 +94,20 @@ export default function CadastrarUsuario() {
             required
           />
         </div>
-
         <div className="mb-3">
+          <label className="form-label text-dark">Telefone</label>
+          <input
+            type="phone"
+            id="telefone"
+            name="telefone"
+            value={formData.telefone}
+            onChange={handleChange}
+            className="form-control"
+            required
+          />
+        </div>
+
+        {/* <div className="mb-3">
           <label className="form-label text-dark">Papel</label>
           <select
             id="role"
@@ -107,7 +120,7 @@ export default function CadastrarUsuario() {
             <option value="USER">Usuário</option>
             <option value="ADMIN">Administrador</option>
           </select>
-        </div>
+        </div> */}
 
         <button type="submit" className="btn btn-primary w-100">
           Cadastrar Usuário

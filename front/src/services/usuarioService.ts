@@ -15,6 +15,7 @@ export interface UsuarioRequest {
     email: string;
     senha: string;
     role: string;
+    telefone: string;
 }
 
 export interface UsuarioResponse {
