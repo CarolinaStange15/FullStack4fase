@@ -53,6 +53,20 @@ public class PetController {
         return ResponseEntity.ok(petService.consultarTodosSemFiltro());
     }
 
+    @GetMapping("/disponiveis")
+    @Operation(summary = "Consultar pets Pendentes de adoção", description = "Método responsável por consultar todos os Pets pendentes de adoção")
+    public ResponseEntity<List<PetResponseDto>> consultaTodosDisponiveis(){
+
+        return ResponseEntity.ok(petService.consultarTodosDisponiveis());
+    }
+
+    @GetMapping("/pendentes")
+    @Operation(summary = "Consultar pets Disponíveis", description = "Método responsável por consultar todos os Pets disponíveis")
+    public ResponseEntity<List<PetResponseDto>> consultaTodosPendentes(){
+
+        return ResponseEntity.ok(petService.consultarTodosPendentes());
+    }
+
     @PostMapping
     @Operation(summary = "Cadastrar Pet", description = "Método responsável por cadastrar pet")
     public ResponseEntity<?> cadastrarPet(@RequestBody PetRequestDto pet, @AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipalDto) {
@@ -84,6 +98,22 @@ public class PetController {
 //        return ResponseEntity.ok(atualizado);
 //
 //    }
+
+    @PutMapping(path = "/{id}")
+    @Operation(summary = "Atualizar Pet", description = "Método responsável por atualizar pet existente")
+    public ResponseEntity<?> editarPet(
+            @PathVariable(name = "id") Long id,
+            @RequestBody PetRequestDto petRequest
+            //@AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipalDto
+    ) {
+        try {
+            var petResponse = petService.editarPet(id, petRequest); //adicionar usuarioPrincipalDto
+            return ResponseEntity.ok(petResponse);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 
     @DeleteMapping(path = "/{id}")
     @Operation(summary = "Deletar Pet", description = "Método responsável por deletar pet")

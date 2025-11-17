@@ -18,8 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
 
-    @Autowired
-    JwtFilter jwtFilter;
+   // @Autowired
+  //  JwtFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception{
@@ -35,19 +35,23 @@ public class SecurityConfiguration {
                         .requestMatchers("/swagger-resources/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
-                     //   .requestMatchers("/usuarios/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST , "/usuarios").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/pets/meus-pets").authenticated()
+                        .requestMatchers(HttpMethod.POST , "/usuarios").permitAll() //cadastro ou edição de user
+                        .requestMatchers(HttpMethod.GET , "/usuarios/**").hasAnyRole("ADMIN","USER") //visualizar meu user
+                        .requestMatchers(HttpMethod.GET , "/usuarios").hasRole("ADMIN") //visualiazar todos os users
+                        .requestMatchers(HttpMethod.GET, "/usuarios/grid").hasRole("ADMIN") //visualização de todos os users por grid
 
-                        .requestMatchers("/pets").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/pets").permitAll() //todos os pets
+                        .requestMatchers(HttpMethod.GET, "/especies").permitAll() //todas as espécies
 
 
-                       // .requestMatchers("/pets/**/editar").permitAll()
+
+
+                        // .requestMatchers("/pets/**/editar").permitAll()
                         //.requestMatchers("/auth/recuperarsenha/envio").hasRole("ADMIN")
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
 
                 )
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+              //  .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

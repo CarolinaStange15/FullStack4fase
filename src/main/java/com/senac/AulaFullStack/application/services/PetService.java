@@ -36,9 +36,6 @@ public class PetService {
     private OngRepository ongRepository;
 
 
-
-
-
         public PetService(PetRepository petRepository, EspecieRepository especieRepository, OngRepository ongRepository) {
             this.petRepository = petRepository;
             this.especieRepository = especieRepository;
@@ -54,43 +51,41 @@ public class PetService {
 
         public List<PetResponseDto> consultarTodosSemFiltro(){
             return petRepository.findAll().stream().map(PetResponseDto::new).collect(Collectors.toList());
+
         }
+
+    public List<PetResponseDto> consultarTodosDisponiveis(){
+
+        return petRepository.findByStatusNot(Pet.StatusPet.ADOTADO)
+                .stream()
+                .map(PetResponseDto::new)
+                .collect(Collectors.toList());
+
+    }
+    public List<PetResponseDto> consultarTodosPendentes() {
+
+        return petRepository.findByStatus(Pet.StatusPet.ADOCAOPENDENTE)
+                .stream()
+                .map(PetResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
 
     @Transactional
     public PetResponseDto salvarPet(PetRequestDto petRequest, UsuarioPrincipalDto usuarioPrincipalDto) {
 
-        // 1. Buscar espécie
         Especie especie = especieRepository.findById(petRequest.especieId())
                 .orElseThrow(() -> new RuntimeException("Espécie não encontrada"));
 
-        // 2. Buscar usuário logado
         var usuarioLogado = usuarioRepository.findById(usuarioPrincipalDto.id())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        // 3. SE NÃO TEM ID → CRIA PET NOVO
-        if (petRequest.id() == null) {
-
-            Pet pet = new Pet(petRequest, especie, usuarioLogado.getOng());
-            petRepository.save(pet);
-
-            return pet.toDtoResponse();
-        }
-
-        // 4. SE TEM ID → UPDATE
-        Pet pet = petRepository.findById(petRequest.id())
-                .orElseThrow(() -> new RuntimeException("Pet não encontrado"));
-
-        pet.setNome(petRequest.nome());
-        pet.setIdadeAproximada(petRequest.idadeAproximada());
-        pet.setDescricao(petRequest.descricao());
-        pet.setContatoAdocao(petRequest.contatoAdocao());
-        pet.setStatus(petRequest.status());
-        pet.setEspecie(especie);
-        pet.setOng(usuarioLogado.getOng());
-
+        Pet pet = new Pet(petRequest, especie, usuarioLogado.getOng());
         petRepository.save(pet);
+
         return pet.toDtoResponse();
     }
+
 
     public void delete(long id) {
         petRepository.deleteById(id);
@@ -115,6 +110,34 @@ public class PetService {
                 .stream()
                 .map(PetResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public PetResponseDto editarPet(Long id, PetRequestDto petRequest) {
+//add UsuarioPrincipalDto usuarioPrincipalDto
+//        var usuarioLogado = usuarioRepository.findById(usuarioPrincipalDto.id())
+//                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        Especie especie = especieRepository.findById(petRequest.especieId())
+                .orElseThrow(() -> new RuntimeException("Espécie não encontrada"));
+
+        Pet pet = petRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pet não encontrado"));
+
+        // impede editar pet de outra ONG
+//        if (!pet.getOng().getId().equals(usuarioLogado.getOng().getId())) {
+//            throw new RuntimeException("Você não tem permissão para editar este pet.");
+//        }
+
+        pet.setNome(petRequest.nome());
+        pet.setIdadeAproximada(petRequest.idadeAproximada());
+        pet.setDescricao(petRequest.descricao());
+        pet.setContatoAdocao(petRequest.contatoAdocao());
+        pet.setStatus(petRequest.status());
+        pet.setEspecie(especie);
+
+        petRepository.save(pet);
+        return pet.toDtoResponse();
     }
 
 

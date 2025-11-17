@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface PetRepository extends JpaRepository<Pet, Long> {
     List<Pet> findByOngId(Long OngId);
+    List<Pet> findByStatusNot(Pet.StatusPet status);
+    List<Pet> findByStatus(Pet.StatusPet status);
 
 
 }

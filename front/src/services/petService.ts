@@ -2,15 +2,6 @@ import api from "./api";
 
 export interface Pet{
   id:number;
-  idadeAproximada: string;
-  descricao: string;
-  contatoAdocao: string;
-  status: StatusPet;
-  especieId: number;
-  ongId: number;
-}
-
-export interface PetsRequest {
   nome: string;
   idadeAproximada: string;
   descricao: string;
@@ -18,6 +9,18 @@ export interface PetsRequest {
   status: StatusPet;
   especieId: number;
   ongId: number;
+  img: string;
+}
+
+export interface PetsRequest {
+  id?: number;
+  nome: string;
+  idadeAproximada: string;
+  descricao: string;
+  contatoAdocao: string;
+  status: StatusPet;
+  especieId: number;
+  ongId?: number;
 }
 
 export const enum StatusPet {
@@ -36,8 +39,8 @@ export interface EspecieResponse {
 }
 
 
-export async function buscarTodosPets(): Promise<Pet[]> {
-  const response = await api.get<Pet[]>("/pets");
+export async function buscarTodosPetsDisponiveis(): Promise<Pet[]> {
+  const response = await api.get<Pet[]>("/pets/disponiveis");
   return response.data;
   
 }
@@ -53,6 +56,23 @@ export async function buscarEspecies(): Promise<EspecieResponse[]> {
   return response.data;
 }
 
-export default buscarTodosPets;
+export async function buscarPetPorId(id: number | string): Promise<Pet> {
+  const response = await api.get<Pet>(`/pets/${id}`);
+  return response.data;
+}
+
+export async function deletarPet(id: number | string): Promise<void> {
+  await api.delete(`/pets/${id}`);
+}
+
+
+export async function editarPet(id: number | string, pet: PetsRequest): Promise<PetsResponse> {
+  const response = await api.put<PetsResponse>(`/pets/${id}`, pet);
+  return response.data;
+}
+
+
+
+export default buscarTodosPetsDisponiveis;
 
 
