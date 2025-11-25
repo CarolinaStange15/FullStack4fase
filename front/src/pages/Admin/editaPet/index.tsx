@@ -14,10 +14,10 @@ export default function EditarPet() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<PetsRequest>({
+    id: 0 ,    
     nome: "",
     idadeAproximada: "",
     descricao: "",
-    contatoAdocao: "",
     status: StatusPet.DISPONIVEL,
     especieId: 0  });
 
@@ -31,13 +31,14 @@ export default function EditarPet() {
 
       const data = await buscarPetPorId(id);
       setFormData({
-        nome: data.nome,
-        idadeAproximada: data.idadeAproximada,
-        descricao: data.descricao,
-        contatoAdocao: data.contatoAdocao,
-        status: data.status,
-        especieId: data.especieId
-      });
+  id: data.id,
+  nome: data.nome,
+  idadeAproximada: data.idadeAproximada,
+  descricao: data.descricao,
+  status: data.status ?? StatusPet.DISPONIVEL,
+  especieId: data.especieid?.id ?? 0
+});
+
 
       setLoading(false);
     }
@@ -62,7 +63,12 @@ export default function EditarPet() {
 
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "especieId" ? Number(value) : value,
+[name]:
+      name === "especieId"
+        ? Number(value)
+        : name === "status"
+        ? (value as StatusPet)
+        : value,      
     }));
   };
 
@@ -100,10 +106,6 @@ export default function EditarPet() {
           <input type="text" name="descricao" value={formData.descricao} onChange={handleChange} className="form-control" required />
         </div>
 
-        <div className="mb-3">
-          <label className="form-label">Contato</label>
-          <input type="text" name="contatoAdocao" value={formData.contatoAdocao} onChange={handleChange} className="form-control" required />
-        </div>
 
         <div className="mb-3">
           <label className="form-label">Espécie</label>
@@ -114,6 +116,23 @@ export default function EditarPet() {
             ))}
           </select>
         </div>
+        <button
+  type="button"
+  onClick={() =>
+    setFormData(prev => ({
+      ...prev,
+      status: prev.status === StatusPet.DISPONIVEL
+        ? StatusPet.ADOTADO
+        : StatusPet.DISPONIVEL
+    }))
+  }
+  className={`btn w-100 mb-3 ${
+    formData.status === StatusPet.DISPONIVEL ? "btn-success" : "btn-secondary"
+  }`}
+>
+  {formData.status === StatusPet.DISPONIVEL ? "Marcar como Adotado" : "Marcar como Disponível"}
+</button>
+ 
 
         <button type="submit" className="btn btn-primary w-100">Salvar alterações</button>
       </form>

@@ -1,14 +1,18 @@
 package com.senac.AulaFullStack.presentation;
 
+import com.senac.AulaFullStack.application.dto.usuario.UsuarioPrincipalDto;
 import com.senac.AulaFullStack.application.dto.usuario.UsuarioRequestDto;
 import com.senac.AulaFullStack.application.dto.usuario.UsuarioResponseDto;
+import com.senac.AulaFullStack.application.dto.usuario.UsuarioResumoDto;
 import com.senac.AulaFullStack.application.services.UsuarioService;
+import com.senac.AulaFullStack.domain.entity.Usuario;
 import com.senac.AulaFullStack.domain.repository.UsuarioRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,7 +74,46 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.consultarPaginadoFiltrado(take,page,filtro));
     }
 
+    @PutMapping("/editar")
+    @Operation(summary = "Editar usuário logado")
+    public ResponseEntity<?> editarUser(
+            @RequestBody UsuarioRequestDto usuarioRequest,
+            @AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipalDto) {
 
+        try {
+            UsuarioResponseDto usuarioResponse =
+                    usuarioService.editarUsuario(usuarioRequest, usuarioPrincipalDto);
+
+            return ResponseEntity.ok(usuarioResponse);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UsuarioResponseDto> buscarUsuarioLogado(
+            @AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipalDto) {
+
+        var usuario = usuarioService.buscarUsuarioLogado(usuarioPrincipalDto);
+        return ResponseEntity.ok(usuario);
+    }
+
+    @PostMapping("/vincularOng")
+    public ResponseEntity<UsuarioResponseDto> vincularOng(
+            @RequestParam Long ongId,
+            @AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipalDto) {
+
+        var usuarioLogado = usuarioRepository.findById(usuarioPrincipalDto.id())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        UsuarioResponseDto response = usuarioService.vincularUsuarioComOng(ongId, usuarioLogado);
+        return ResponseEntity.ok(response);
+    }
 
 
 }
+
+
+
+
+

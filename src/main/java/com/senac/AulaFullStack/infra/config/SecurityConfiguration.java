@@ -18,8 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
 
-   // @Autowired
-  //  JwtFilter jwtFilter;
+    @Autowired
+    JwtFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception{
@@ -42,6 +42,8 @@ public class SecurityConfiguration {
 
                         .requestMatchers(HttpMethod.GET, "/pets").permitAll() //todos os pets
                         .requestMatchers(HttpMethod.GET, "/especies").permitAll() //todas as espécies
+                        .requestMatchers(HttpMethod.GET, "/pets/**").permitAll() //todos os pets
+                        .requestMatchers(HttpMethod.GET, "/ongs").permitAll() //todas as espécies
 
 
 
@@ -51,7 +53,7 @@ public class SecurityConfiguration {
                         .anyRequest().permitAll()
 
                 )
-              //  .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+               .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

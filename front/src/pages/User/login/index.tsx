@@ -1,13 +1,8 @@
 import React, { useEffect, useState, type FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginSucesso } from "../../../redux/authSlice";
 import { LoginNovo, type LoginRequest } from "../../../services/authService";
-
-
-
-
-
 export default function Login() {
 
           const navigator = useNavigate();
@@ -35,18 +30,10 @@ export default function Login() {
         event.preventDefault();
 
         try {
-
             const loginResponse = await LoginNovo(formData);
-
-    
             const token = loginResponse.token;
 
-            console.log(token);
-
-        
             if(token !=null) {
-
-                
         const usuarioLogin = {
           usuario: { email: formData.email, nome: "" },
           token: token
@@ -54,7 +41,7 @@ export default function Login() {
         
         dispatch(loginSucesso(usuarioLogin));
 
-                navigator("/homeAdmin")
+                navigator("/home")
             }
 
 
@@ -81,6 +68,8 @@ export default function Login() {
 
          } catch (error) {
         console.error;
+              alert("E-mail ou senha inválidos!");
+
          }
 
     }
@@ -89,7 +78,17 @@ export default function Login() {
 
 return (
     <>
-
+     <div className="text-center mb-4">
+          <img
+            src="/img/logo.png"
+            alt="Logo"
+            className="mb-3"
+            style={{ width: "100px", height: "100px" }}
+          />
+          
+        </div>
+<h3 className="fw-bold text-info">Bem-vindo</h3>
+          <p className="text-secondary">Faça login para continuar</p>
     <form onSubmit={handleSubmit}>
         <div className="mb-3">
             <label htmlFor="email" className="form-label text-light">Email</label>
@@ -120,14 +119,20 @@ return (
             />
         </div>
 
+  <div className="d-flex justify-content-end mb-3">
+          <Link to="/recuperarSenha" className="small text-info text-decoration-none">
+            Esqueceu sua senha?
+          </Link>
+        </div>
+
         <button type="submit" className="btn btn-info w-100 fw-bold">
             Entrar
         </button>
 
         <div className="text-center mt-3">
-            <a href="/register" className="small text-info text-decoration-none">
+            <Link to="/usuarioCadastro" className="small text-info text-decoration-none">
                 Criar conta
-            </a>
+            </Link>
         </div>
 
     </form>

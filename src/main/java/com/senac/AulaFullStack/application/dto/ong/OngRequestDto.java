@@ -9,6 +9,8 @@ public record OngRequestDto (
         String email,
         String cnpj,
         String telefone,
+        String endereco,
+        String cidade,
         Ong.StatusOng status
 
 ){}

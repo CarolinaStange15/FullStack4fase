@@ -18,8 +18,8 @@ export default function CadastrarUsuario() {
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = event.target;
-    setFormData((prevState) => ({
-      ...prevState,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
     }));
   };
@@ -30,7 +30,7 @@ export default function CadastrarUsuario() {
     try {
       await cadastrarUsuario(formData);
       alert("Usuário cadastrado com sucesso!");
-      navigate("/homeAdmin");
+      navigate("/");
     } catch (error) {
       alert("Erro ao cadastrar usuário!");
       console.error(error);
@@ -38,94 +38,94 @@ export default function CadastrarUsuario() {
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4 text-dark">Cadastrar Usuário</h2>
+    <>
+      {/* LOGO IGUAL AO LOGIN */}
+      <div className="text-center mb-4">
+        <img
+          src="/img/logo.png"
+          alt="Logo"
+          className="mb-3"
+          style={{ width: "100px", height: "100px" }}
+        />
+      </div>
 
-      <form onSubmit={handleSubmit} className="p-4 border rounded bg-light">
+      <h3 className="fw-bold text-info text-center">Criar conta</h3>
+      <p className="text-secondary text-center mb-4">
+        Preencha os dados para continuar
+      </p>
+
+      <form onSubmit={handleSubmit}>
+        {/* Nome */}
         <div className="mb-3">
-          <label className="form-label text-dark">Nome</label>
+          <label className="form-label text-light">Nome</label>
           <input
             type="text"
-            id="nome"
             name="nome"
             value={formData.nome}
             onChange={handleChange}
-            className="form-control"
+            className="form-control bg-dark text-light border-secondary"
             required
           />
         </div>
 
+        {/* CPF */}
         <div className="mb-3">
-          <label className="form-label text-dark">CPF</label>
+          <label className="form-label text-light">CPF</label>
           <input
             type="text"
-            id="cpf"
             name="cpf"
             value={formData.cpf}
             onChange={handleChange}
-            className="form-control"
+            className="form-control bg-dark text-light border-secondary"
             placeholder="000.000.000-00"
             required
           />
         </div>
 
+        {/* Email */}
         <div className="mb-3">
-          <label className="form-label text-dark">Email</label>
+          <label className="form-label text-light">Email</label>
           <input
             type="email"
-            id="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="form-control"
+            className="form-control bg-dark text-light border-secondary"
             required
           />
         </div>
 
+        {/* Senha */}
         <div className="mb-3">
-          <label className="form-label text-dark">Senha</label>
+          <label className="form-label text-light">Senha</label>
           <input
             type="password"
-            id="senha"
             name="senha"
             value={formData.senha}
             onChange={handleChange}
-            className="form-control"
+            className="form-control bg-dark text-light border-secondary"
             required
           />
         </div>
+
+        {/* Telefone */}
         <div className="mb-3">
-          <label className="form-label text-dark">Telefone</label>
+          <label className="form-label text-light">Telefone</label>
           <input
-            type="phone"
-            id="telefone"
+            type="text"
             name="telefone"
             value={formData.telefone}
             onChange={handleChange}
-            className="form-control"
+            className="form-control bg-dark text-light border-secondary"
             required
           />
         </div>
 
-        {/* <div className="mb-3">
-          <label className="form-label text-dark">Papel</label>
-          <select
-            id="role"
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            className="form-select"
-            required
-          >
-            <option value="USER">Usuário</option>
-            <option value="ADMIN">Administrador</option>
-          </select>
-        </div> */}
-
-        <button type="submit" className="btn btn-primary w-100">
+        {/* Botão */}
+        <button type="submit" className="btn btn-info w-100 fw-bold mt-2">
           Cadastrar Usuário
         </button>
       </form>
-    </div>
+    </>
   );
 }

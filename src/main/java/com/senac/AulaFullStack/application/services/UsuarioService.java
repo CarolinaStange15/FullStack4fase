@@ -3,10 +3,7 @@ package com.senac.AulaFullStack.application.services;
 
 import com.senac.AulaFullStack.application.dto.login.LoginRequestDto;
 import com.senac.AulaFullStack.application.dto.login.RecuperarSenhaDto;
-import com.senac.AulaFullStack.application.dto.usuario.RegistrarNovaSenhaDto;
-import com.senac.AulaFullStack.application.dto.usuario.UsuarioPrincipalDto;
-import com.senac.AulaFullStack.application.dto.usuario.UsuarioRequestDto;
-import com.senac.AulaFullStack.application.dto.usuario.UsuarioResponseDto;
+import com.senac.AulaFullStack.application.dto.usuario.*;
 import com.senac.AulaFullStack.domain.entity.Ong;
 import com.senac.AulaFullStack.domain.entity.Usuario;
 import com.senac.AulaFullStack.domain.interfaces.IEnvioEmail;
@@ -14,7 +11,10 @@ import com.senac.AulaFullStack.domain.repository.OngRepository;
 import com.senac.AulaFullStack.domain.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -33,6 +33,9 @@ public class UsuarioService {
 
     @Autowired
     private OngRepository ongRepository;
+
+    @Autowired
+    private TokenService tokenService;
 
     public boolean validarSenha(LoginRequestDto login){
         return usuarioRepository.existsUsuarioByEmailContainingAndSenha(login.email(), login.senha());
@@ -120,9 +123,6 @@ public class UsuarioService {
 
 
         }
-
-
-
     }
 
     public void registrarNovaSenha(RegistrarNovaSenhaDto registrarNovaSenhaDto) {
@@ -136,6 +136,50 @@ public class UsuarioService {
             usuario.setSenha(registrarNovaSenhaDto.senha());
             usuarioRepository.save(usuario);
         }
-
     }
+
+    @Transactional
+    public UsuarioResponseDto editarUsuario( UsuarioRequestDto usuarioRequest, UsuarioPrincipalDto usuarioPrincipalDto) {
+
+        Usuario usuarioLogado = usuarioRepository.findById(usuarioPrincipalDto.id())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+
+
+        // Atualiza apenas campos permitidos
+        usuarioLogado.setNome(usuarioRequest.nome());
+        usuarioLogado.setTelefone(usuarioRequest.telefone());
+        usuarioLogado.setEmail(usuarioRequest.email());
+        usuarioLogado.setSenha(usuarioRequest.senha());
+
+
+
+        usuarioRepository.save(usuarioLogado);
+
+        return usuarioLogado.toDtoResponse();
+    }
+
+    public UsuarioResponseDto buscarUsuarioLogado(UsuarioPrincipalDto principal) {
+        var usuario = usuarioRepository.findById(principal.id())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        return usuario.toDtoResponse();
+    }
+
+    @Transactional
+    public UsuarioResponseDto vincularUsuarioComOng(Long ongId, Usuario usuarioLogado) {
+        Ong ong = ongRepository.findById(ongId)
+                .orElseThrow(() -> new RuntimeException("ONG não encontrada"));
+
+        usuarioLogado.setOng(ong);
+        usuarioRepository.save(usuarioLogado);
+
+        return usuarioLogado.toDtoResponse();
+    }
+
+
+
+
 }
+
+

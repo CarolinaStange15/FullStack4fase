@@ -38,14 +38,14 @@ public class AuthController {
         return ResponseEntity.ok(new LoginResponseDto(token));
     }
 
-    @GetMapping("/recuperarsenha/envio")
-    @Operation(summary = "Recuperar senha",description = "Método de recuperar senha")
-    public ResponseEntity<?> recuperarSenhaEnvio(@AuthenticationPrincipal UsuarioPrincipalDto usuarioLogado){
-
-        usuarioService.recuperarSenhaEnvio(usuarioLogado);
-        return ResponseEntity.ok("Código enviado com sucesso!");
-
-    }
+//    @GetMapping("/recuperarsenha/envio")
+//    @Operation(summary = "Recuperar senha",description = "Método de recuperar senha")
+//    public ResponseEntity<?> recuperarSenhaEnvio(@AuthenticationPrincipal UsuarioPrincipalDto usuarioLogado){
+//
+//        usuarioService.recuperarSenhaEnvio(usuarioLogado);
+//        return ResponseEntity.ok("Código enviado com sucesso!");
+//
+//    }
 
     @PostMapping("/esquecisenha")
     @Operation(summary = "Esqueci minha senha", description = "Método para recuperar senha Uusuário")

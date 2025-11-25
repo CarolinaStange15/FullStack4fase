@@ -1,5 +1,6 @@
 package com.senac.AulaFullStack.presentation;
 
+import com.senac.AulaFullStack.application.dto.pet.PetAndOngResponseDto;
 import com.senac.AulaFullStack.application.dto.pet.PetRequestDto;
 import com.senac.AulaFullStack.application.dto.pet.PetResponseDto;
 import com.senac.AulaFullStack.application.dto.usuario.UsuarioPrincipalDto;
@@ -46,6 +47,16 @@ public class PetController {
         return ResponseEntity.ok(pet);
     }
 
+    @GetMapping("/{id}/conhecer")
+    @Operation(summary = "Consultar um pet e informações da sua ONG por ID", description = "Método responsável por consultar pet e Ong por um ID específico")
+    public ResponseEntity<PetAndOngResponseDto> consultaPorIdDetalhes(@PathVariable Long id) {
+        var pet = petService.consultaPetOng(id);
+
+        if (pet == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(pet);
+    }
     @GetMapping
     @Operation(summary = "Consultar pets", description = "Método responsável por consultar todos os Pets")
     public ResponseEntity<List<PetResponseDto>> consultaTodos(){
@@ -54,14 +65,14 @@ public class PetController {
     }
 
     @GetMapping("/disponiveis")
-    @Operation(summary = "Consultar pets Pendentes de adoção", description = "Método responsável por consultar todos os Pets pendentes de adoção")
+    @Operation(summary = "Consultar pets disponíveis para adoção", description = "Método responsável por consultar todos os Pets disponíveis para adoção")
     public ResponseEntity<List<PetResponseDto>> consultaTodosDisponiveis(){
 
         return ResponseEntity.ok(petService.consultarTodosDisponiveis());
     }
 
     @GetMapping("/pendentes")
-    @Operation(summary = "Consultar pets Disponíveis", description = "Método responsável por consultar todos os Pets disponíveis")
+    @Operation(summary = "Consultar pets com status pendente", description = "Método responsável por consultar todos os Pets com adoção pendente")
     public ResponseEntity<List<PetResponseDto>> consultaTodosPendentes(){
 
         return ResponseEntity.ok(petService.consultarTodosPendentes());
@@ -103,11 +114,11 @@ public class PetController {
     @Operation(summary = "Atualizar Pet", description = "Método responsável por atualizar pet existente")
     public ResponseEntity<?> editarPet(
             @PathVariable(name = "id") Long id,
-            @RequestBody PetRequestDto petRequest
-            //@AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipalDto
+            @RequestBody PetRequestDto petRequest,
+            @AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipalDto
     ) {
         try {
-            var petResponse = petService.editarPet(id, petRequest); //adicionar usuarioPrincipalDto
+            var petResponse = petService.editarPet(id, petRequest, usuarioPrincipalDto ); //adicionar usuarioPrincipalDto
             return ResponseEntity.ok(petResponse);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

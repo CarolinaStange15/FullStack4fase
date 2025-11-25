@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { buscarPetPorId, deletarPet, type Pet } from "../../../services/petService";
+import { buscarPetPorId, buscarPetPorIdDetalhes, deletarPet, type Pet } from "../../../services/petService";
 
 export default function DetalhesPet() {
   const navigate = useNavigate();
@@ -30,9 +30,7 @@ export default function DetalhesPet() {
             <p>
               <strong>Descrição:</strong> {pet.descricao}
             </p>
-            <p>
-              <strong>Contato para adoção:</strong> {pet.contatoAdocao}
-            </p>
+            
             <p>
               <strong>Status:</strong> {pet.status}
             </p>
@@ -41,7 +39,14 @@ export default function DetalhesPet() {
           <div className="card-footer bg-transparent d-flex justify-content-end gap-2">
             <button
               className="btn btn-primary"
-              onClick={() => navigate(`/pets/${pet.id}/editar`)}
+              onClick={() => navigate(`/pets/consultar`)}
+            >
+              Voltar
+            </button>
+
+    <button
+              className="btn btn-primary"
+              onClick={() => navigate(`/pets/${id}/editar`)}
             >
               Editar
             </button>
@@ -50,9 +55,9 @@ export default function DetalhesPet() {
               className="btn btn-danger"
               onClick={async () => {
                 try {
-                  await deletarPet(pet.id);
+                  await deletarPet (pet.id);
                   alert("Pet deletado com sucesso!");
-                  navigate("/homeAdmin");
+                  navigate("/pets/consultar");
                 } catch (err) {
                   alert("Erro ao excluir pet!");
                   console.error(err);

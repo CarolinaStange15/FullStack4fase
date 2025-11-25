@@ -22,7 +22,6 @@ public class Pet {
         this.setDescricao(petRequest.descricao());
         this.setEspecie(especie);
         this.setOng(ong);
-        this.setContatoAdocao(petRequest.contatoAdocao());
         this.setIdadeAproximada(petRequest.idadeAproximada());
         this.setStatus(petRequest.status());
         if (this.getDataCadastro() == null) {
@@ -39,7 +38,6 @@ public class Pet {
     private String nome;
     private String idadeAproximada;
     private  String descricao;
-    private String contatoAdocao;
     private LocalDateTime dataCadastro;
 
     @ManyToOne
@@ -64,5 +62,7 @@ public class Pet {
     public PetResponseDto toDtoResponse(){
         return new PetResponseDto(this);
     }
+
+
 
 }

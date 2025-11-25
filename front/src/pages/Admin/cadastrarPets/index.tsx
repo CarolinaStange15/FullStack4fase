@@ -1,18 +1,30 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { cadastrarPet, StatusPet, buscarEspecies, type EspecieResponse, type PetsRequest } from "../../../services/petService";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../../redux/store";
 
 
 
 
 export default function CadastrarPet() {
   const navigate = useNavigate();
+  const token = useSelector((state: RootState) => state.auth.token);
+
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/"); 
+    }
+  }, [token, navigate]);
+
+
+
 
   const [formData, setFormData] = useState<PetsRequest>({
     nome: "",
     idadeAproximada: "",
     descricao: "",
-    contatoAdocao: "",
     status: StatusPet.DISPONIVEL,
     especieId: 0,
     ongId:0
@@ -21,6 +33,8 @@ export default function CadastrarPet() {
 
    const [especies, setEspecies] = useState<EspecieResponse[]>([]);
 
+
+ 
 
   useEffect(() => {
     async function load() {
@@ -109,19 +123,6 @@ export default function CadastrarPet() {
             />
           </div>
 
-          <div className="mb-3">
-            <label className="form-label text-dark">Contato</label>
-            <input
-              type="text"
-              id="contatoAdocao"
-              name="contatoAdocao"
-              value={formData.contatoAdocao}
-              onChange={handleChange}
-              className="form-control"
-              placeholder="Email ou telefone"
-              required
-            />
-          </div>
 
           <div className="mb-3">
             <label className="form-label text-dark">Espécie</label>

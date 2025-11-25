@@ -3,9 +3,13 @@ package com.senac.AulaFullStack.presentation;
 
 import com.senac.AulaFullStack.application.dto.ong.OngRequestDto;
 import com.senac.AulaFullStack.application.dto.ong.OngResponseDto;
+import com.senac.AulaFullStack.application.dto.usuario.UsuarioPrincipalDto;
+import com.senac.AulaFullStack.application.dto.usuario.UsuarioResponseDto;
 import com.senac.AulaFullStack.application.services.OngService;
+import com.senac.AulaFullStack.application.services.UsuarioService;
 import com.senac.AulaFullStack.domain.entity.Usuario;
 import com.senac.AulaFullStack.domain.repository.OngRepository;
+import com.senac.AulaFullStack.domain.repository.UsuarioRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,12 @@ public class OngController {
     private OngRepository ongRepository;
     @Autowired
     private OngService ongService;
+    @Autowired
+    private UsuarioService usuarioService;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+
 
     @GetMapping("/{id}")
     @Operation(summary = "Consultar uma Ong por ID",description = "Método responsável por consultar ong por um ID específico")
@@ -62,16 +72,37 @@ public class OngController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/solicitarCadastro")
-    public ResponseEntity<OngResponseDto> solicitarOng(@RequestBody OngRequestDto dto,
-                                                       @AuthenticationPrincipal Usuario usuario) {
-        //Trocar aqui igual no pet
-        OngResponseDto response = ongService.solicitarOng(dto, usuario);
+//    @PostMapping("/solicitarCadastro")
+//    public ResponseEntity<OngResponseDto> solicitarOng(@RequestBody OngRequestDto dto,
+//                                                       @AuthenticationPrincipal Usuario usuario) {
+//        //Trocar aqui igual no pet
+//        OngResponseDto response = ongService.solicitarOng(dto, usuario);
+//        return ResponseEntity.ok(response);
+//    }
+
+    @PostMapping("/cadastrar")
+    @Operation(summary = "Cadastrar Ong", description = "Método responsável por cadastrar Ong")
+
+    public ResponseEntity<OngResponseDto> criar(@RequestBody OngRequestDto dto) {
+        OngResponseDto response = ongService.criarOng(dto);
         return ResponseEntity.ok(response);
     }
 
 
+    @PutMapping("/minhaOng")
+    public ResponseEntity<OngResponseDto> atualizarMinhaOng(
+            @RequestBody OngRequestDto ongRequestDto,
+            @AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipalDto) {
 
+        // Busca o usuário logado
+        var usuarioLogado = usuarioRepository.findById(usuarioPrincipalDto.id())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        // Chama o service
+        var response = ongService.atualizarMinhaOng(ongRequestDto, usuarioLogado);
+
+        return ResponseEntity.ok(response);
+    }
 
 
 

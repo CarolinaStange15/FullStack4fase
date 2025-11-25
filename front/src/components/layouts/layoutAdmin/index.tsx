@@ -1,8 +1,9 @@
 
-import Sidebar from "../sidebar/index";
-import Header from "../header/index";
-import Footer from "../footer/index";
+
 import { Outlet } from "react-router-dom";
+import Header from "../../header";
+import Sidebar from "../../sidebar";
+import Footer from "../../footer";
 
 export default function LayoutAdmin(){
     return(

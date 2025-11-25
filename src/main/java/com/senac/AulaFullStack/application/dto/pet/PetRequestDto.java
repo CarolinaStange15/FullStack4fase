@@ -7,7 +7,6 @@ public record PetRequestDto(
         String nome,
                             String idadeAproximada,
                             String descricao,
-                            String contatoAdocao,
                             Long especieId,
                             Pet.StatusPet status
         ) {

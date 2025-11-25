@@ -3,7 +3,7 @@ import buscarTodosUsuarios, { type Usuario } from "../../../services/usuarioServ
 
 
 
- export default function Usuario() {
+ export default function GridUsuarios() {
 
   const[usuarios,setUsuarios] = useState<Usuario[]>([]);
 

@@ -2,6 +2,7 @@ package com.senac.AulaFullStack.domain.entity;
 
 import com.senac.AulaFullStack.application.dto.ong.OngRequestDto;
 import com.senac.AulaFullStack.application.dto.ong.OngResponseDto;
+import com.senac.AulaFullStack.application.dto.ong.OngResumoDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -25,6 +26,8 @@ public class Ong {
     private String email;
     private String cnpj;
     private String telefone;
+    private String cidade;
+    private String endereco;
     private LocalDateTime dataCadastro;
     private String tokenCriacao;
 
@@ -35,6 +38,8 @@ public class Ong {
         this.setCnpj(ongRequest.cnpj());
         this.setTelefone(ongRequest.telefone());
         this.setStatus(ongRequest.status());
+        this.setEndereco(ongRequest.endereco());
+        this.setCidade(ongRequest.cidade());
         if (this.getDataCadastro() == null){
             this.setDataCadastro(LocalDateTime.now());
         }
@@ -63,6 +68,9 @@ public class Ong {
         return new OngResponseDto(this);
     }
 
+    public OngResumoDto toDtoResponseResumo(){
+        return new OngResumoDto(this);
+    }
 //    @ManyToOne
 //    @JoinColumn(name = "endereco_id")
 //    private Endereco endereco;

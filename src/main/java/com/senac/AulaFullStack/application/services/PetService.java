@@ -1,13 +1,11 @@
 package com.senac.AulaFullStack.application.services;
 
+import com.senac.AulaFullStack.application.dto.pet.PetAndOngResponseDto;
 import com.senac.AulaFullStack.application.dto.pet.PetRequestDto;
 import com.senac.AulaFullStack.application.dto.pet.PetResponseDto;
 import com.senac.AulaFullStack.application.dto.usuario.UsuarioPrincipalDto;
-import com.senac.AulaFullStack.application.dto.usuario.UsuarioResponseDto;
 import com.senac.AulaFullStack.domain.entity.Especie;
-import com.senac.AulaFullStack.domain.entity.Ong;
 import com.senac.AulaFullStack.domain.entity.Pet;
-import com.senac.AulaFullStack.domain.entity.Usuario;
 import com.senac.AulaFullStack.domain.repository.EspecieRepository;
 import com.senac.AulaFullStack.domain.repository.OngRepository;
 import com.senac.AulaFullStack.domain.repository.PetRepository;
@@ -15,7 +13,6 @@ import com.senac.AulaFullStack.domain.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,6 +43,12 @@ public class PetService {
         public PetResponseDto consultarPorId(Long id){
             return petRepository.findById(id)
                     .map(PetResponseDto::new)
+                    .orElse(null);
+        }
+
+        public PetAndOngResponseDto consultaPetOng(Long id){
+            return petRepository.findById(id)
+                    .map(PetAndOngResponseDto::new)
                     .orElse(null);
         }
 
@@ -87,6 +90,9 @@ public class PetService {
     }
 
 
+
+
+
     public void delete(long id) {
         petRepository.deleteById(id);
     }
@@ -113,10 +119,9 @@ public class PetService {
     }
 
     @Transactional
-    public PetResponseDto editarPet(Long id, PetRequestDto petRequest) {
-//add UsuarioPrincipalDto usuarioPrincipalDto
-//        var usuarioLogado = usuarioRepository.findById(usuarioPrincipalDto.id())
-//                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    public PetResponseDto editarPet(Long id, PetRequestDto petRequest, UsuarioPrincipalDto usuarioPrincipalDto) {
+      var usuarioLogado = usuarioRepository.findById(usuarioPrincipalDto.id())
+               .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
         Especie especie = especieRepository.findById(petRequest.especieId())
                 .orElseThrow(() -> new RuntimeException("Espécie não encontrada"));
@@ -125,14 +130,14 @@ public class PetService {
                 .orElseThrow(() -> new RuntimeException("Pet não encontrado"));
 
         // impede editar pet de outra ONG
-//        if (!pet.getOng().getId().equals(usuarioLogado.getOng().getId())) {
-//            throw new RuntimeException("Você não tem permissão para editar este pet.");
-//        }
+        if (!pet.getOng().getId().equals(usuarioLogado.getOng().getId())) {
+            throw new RuntimeException("Você não tem permissão para editar este pet.");
+        }
 
+        pet.setId(petRequest.id());
         pet.setNome(petRequest.nome());
         pet.setIdadeAproximada(petRequest.idadeAproximada());
         pet.setDescricao(petRequest.descricao());
-        pet.setContatoAdocao(petRequest.contatoAdocao());
         pet.setStatus(petRequest.status());
         pet.setEspecie(especie);
 
