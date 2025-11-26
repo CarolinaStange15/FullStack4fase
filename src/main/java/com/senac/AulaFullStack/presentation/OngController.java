@@ -56,13 +56,11 @@ public class OngController {
 
     @PostMapping
     @Operation(summary = "Registrar Ong", description = "Método responsável por cadastrar/editar Ong")
-    public ResponseEntity<?> registrar(@RequestBody OngRequestDto ong) {
-        try {
+    public ResponseEntity<OngResponseDto> registrar(@RequestBody OngRequestDto ong) {
+
             var ongResponse = ongService.salvarOng(ong);
             return ResponseEntity.ok(ongResponse);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+
     }
 
     @DeleteMapping(path = "/{id}")
@@ -90,6 +88,8 @@ public class OngController {
 
 
     @PutMapping("/minhaOng")
+    @Operation(summary = "Minha Ong", description = "Método responsável por consultar a ong do usuário logado")
+
     public ResponseEntity<OngResponseDto> atualizarMinhaOng(
             @RequestBody OngRequestDto ongRequestDto,
             @AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipalDto) {

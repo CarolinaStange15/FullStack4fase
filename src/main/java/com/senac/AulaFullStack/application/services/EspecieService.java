@@ -20,13 +20,7 @@ public class EspecieService {
     private EspecieRepository especieRepository;
 
     public EspecieResponseDto salvarEspecie(EspecieRequestDto especieRequest) {
-        Especie especie = especieRepository.findById(especieRequest.id())
-                .map(e -> {
-                    e.setNome(especieRequest.nome());
-                    return e;
-                })
-                .orElse(new Especie (especieRequest));
-
+        Especie especie = new Especie(especieRequest);
         especieRepository.save(especie);
         return especie.toDtoResponse();
     }

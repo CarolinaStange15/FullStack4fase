@@ -68,7 +68,7 @@ export default function CadastrarPet() {
     try {
       await cadastrarPet(formData);
       alert("Pet cadastrado com sucesso!");
-      navigate("/meusPets");
+      navigate("/home");
     } catch (error) {
       alert("Erro ao cadastrar Pet!");
       console.error(error);

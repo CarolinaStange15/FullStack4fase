@@ -18,6 +18,14 @@ export interface UsuarioRequest {
     telefone: string;
 }
 
+export interface UsuarioRequestEdicao {
+    nome: string;
+    cpf: string;
+    email: string;
+    role: string;
+    telefone: string;
+}
+
 export interface RecuperarSenhaDto {
   email: string;
 }
@@ -65,7 +73,7 @@ export async function cadastrarUsuario( usuario: UsuarioRequest ): Promise<Usuar
 
 
   
-export async function editarUsuario(usuario: UsuarioRequest): Promise<UsuarioResponse> {
+export async function editarUsuario(usuario: UsuarioRequestEdicao): Promise<UsuarioResponse> {
   const response = await api.put<UsuarioResponse>("/usuarios/editar", usuario);
   return response.data;
 }

@@ -25,18 +25,23 @@ public class AdocaoController {
     private AdocaoService adocaoService;
 
 
+
+
     @PostMapping("/{idPet}")
     @Operation(summary = "Criar pedido de adoção", description = "Gera um novo pedido de adoção para um pet específico")
-    public ResponseEntity<?> criarPedidoAdocao(@PathVariable Long idPet, @RequestBody AdocaoRequestDto adocaoRequest, @AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipal) {
-
+    public ResponseEntity<AdocaoResponseDto> criarPedidoAdocao(
+            @PathVariable Long idPet,
+            @RequestBody AdocaoRequestDto adocaoRequest,
+            @AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipal
+    ) {
         try {
             AdocaoResponseDto response = adocaoService.salvarPedidoAdocao(idPet, adocaoRequest, usuarioPrincipal);
             return ResponseEntity.ok(response);
         } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-
+            return ResponseEntity.badRequest().build();
         }
     }
+
     @GetMapping(path = "/{id}")
     @Operation(summary = "Consultar um pedido de adoção por ID", description = "Método responsável por consultar pedido de adoção por um ID específico")
     public ResponseEntity<AdocaoResumoDto> consultaPorId(@PathVariable Long id){
@@ -55,12 +60,14 @@ public class AdocaoController {
     }
 
     @GetMapping("/meus-pedidos")
-    public ResponseEntity<?> listarPedidosDoUsuario(
+    @Operation(summary = "Consultar meus pedidos de adoção", description = "Método responsável por buscar todos os pedidos de adoção do usuário logado")
+    public ResponseEntity<List<AdocaoResumoDto>> listarPedidosDoUsuario(
             @AuthenticationPrincipal UsuarioPrincipalDto usuario
     ) {
-        var pedidos = adocaoService.listarPorUsuario(usuario);
+        List<AdocaoResumoDto> pedidos = adocaoService.listarPorUsuario(usuario);
         return ResponseEntity.ok(pedidos);
     }
+
 
     @GetMapping("/aprovadas")
     @Operation(summary = "Consultar adoções aprovadas", description = "Retorna todas as adoções aprovadas para a ONG do usuário logado"
@@ -87,17 +94,21 @@ public class AdocaoController {
     }
 
     @PutMapping("/{id}/aprovar")
+    @Operation(summary = "Aprovar adoção", description = "Método responsável por aprovar pedidos de adoção")
     public ResponseEntity<AdocaoResponseDto> aprovarAdocao(@PathVariable Long id) {
         AdocaoResponseDto response = adocaoService.aprovaAdocao(id);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}/reprovar")
+    @Operation(summary = "Reprovar adoção", description = "Método responsável por reprovar pedidos de adoção")
+
     public ResponseEntity<AdocaoResponseDto> reprovarAdocao(@PathVariable Long id) {
         AdocaoResponseDto response = adocaoService.reprovaAdocao(id);
         return ResponseEntity.ok(response);
     }
     @PutMapping("/{id}/cancelarResposta")
+    @Operation(summary = "Cancelar resposta de adoção", description = "Método responsável por retorar um pedido de adoção para pendente")
     public ResponseEntity<AdocaoResponseDto> cancelaResposta(@PathVariable Long id) {
         AdocaoResponseDto response = adocaoService.cancelaRespostaAdocao(id);
         return ResponseEntity.ok(response);

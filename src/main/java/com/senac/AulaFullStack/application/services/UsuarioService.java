@@ -139,7 +139,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public UsuarioResponseDto editarUsuario( UsuarioRequestDto usuarioRequest, UsuarioPrincipalDto usuarioPrincipalDto) {
+    public UsuarioResponseDto editarUsuario( UsuarioRequestEdicao usuarioRequest, UsuarioPrincipalDto usuarioPrincipalDto) {
 
         Usuario usuarioLogado = usuarioRepository.findById(usuarioPrincipalDto.id())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
@@ -150,7 +150,6 @@ public class UsuarioService {
         usuarioLogado.setNome(usuarioRequest.nome());
         usuarioLogado.setTelefone(usuarioRequest.telefone());
         usuarioLogado.setEmail(usuarioRequest.email());
-        usuarioLogado.setSenha(usuarioRequest.senha());
 
 
 

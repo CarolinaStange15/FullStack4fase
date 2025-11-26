@@ -28,15 +28,16 @@ public class AuthController {
 
     @PostMapping("/login")
     @Operation(summary = "Login", description = "Método responsável por efetuar o login de usuário")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDto request) {
-
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto request) {
         if (!usuarioService.validarSenha(request)) {
-            return ResponseEntity.badRequest().body("Usuário ou senha inválida!");
+            return ResponseEntity.badRequest().build(); // remover String pra manter padrão de não retornar nada que não seja DTO
         }
 
         var token = tokenService.gerarToken(request);
         return ResponseEntity.ok(new LoginResponseDto(token));
     }
+
+
 
 //    @GetMapping("/recuperarsenha/envio")
 //    @Operation(summary = "Recuperar senha",description = "Método de recuperar senha")
@@ -49,12 +50,11 @@ public class AuthController {
 
     @PostMapping("/esquecisenha")
     @Operation(summary = "Esqueci minha senha", description = "Método para recuperar senha Uusuário")
-    public ResponseEntity<?> recuperarSenha(@RequestBody RecuperarSenhaDto recuperarSenhaDto){
+    public ResponseEntity<Void> recuperarSenha(@RequestBody RecuperarSenhaDto recuperarSenhaDto){
         try {
             usuarioService.recuperarSenha(recuperarSenhaDto);
             return ResponseEntity.ok().build();
-
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -62,17 +62,15 @@ public class AuthController {
 
     @PostMapping("/registrarnovasenha")
     @Operation(summary = "Registrar nova senha", description = "Método para registrar a nova senha")
-    public ResponseEntity<?> registrarNovaSenha(@RequestBody RegistrarNovaSenhaDto registrarNovaSenhaDto){
+    public ResponseEntity<Void> registrarNovaSenha(@RequestBody RegistrarNovaSenhaDto registrarNovaSenhaDto){
         try {
             usuarioService.registrarNovaSenha(registrarNovaSenhaDto);
             return ResponseEntity.ok().build();
-
-
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
-
     }
+
 
 }
 

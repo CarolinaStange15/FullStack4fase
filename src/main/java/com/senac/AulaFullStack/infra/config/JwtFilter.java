@@ -28,8 +28,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 || path.equals("auth/esqueciSenha")
                 || path.equals("/usuarios")
                 || (path.equals("/pets/disponiveis") && request.getMethod().equals("GET"))
-                || (path.matches("/pets/\\d+") && request.getMethod().equals("GET"))
-
                 || path.equals("auth/registrarnovasenha")
                 || path.startsWith("/swagger-resources")
                 || path.startsWith("/v3/api-docs")

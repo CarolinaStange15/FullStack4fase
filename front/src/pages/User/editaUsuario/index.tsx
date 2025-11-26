@@ -4,6 +4,7 @@ import {
   buscarUsuarioLogado,
   editarUsuario,
   type UsuarioRequest,
+  type UsuarioRequestEdicao,
 } from "../../../services/usuarioService";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../redux/store";
@@ -21,16 +22,14 @@ export default function EditarUsuario() {
   }, [token, navigate]);
 
 
-  const [formData, setFormData] = useState<UsuarioRequest>({
+  const [formData, setFormData] = useState<UsuarioRequestEdicao>({
     nome: "",
     cpf: "",
     email: "",
-    senha: "",
     telefone: "",
     role: "USER",
   });
 
-  // Carrega dados do usuário logado ao abrir a página
   useEffect(() => {
     async function load() {
       try {
@@ -40,7 +39,6 @@ export default function EditarUsuario() {
           cpf: usuario.cpf,
           email: usuario.email,
           telefone: usuario.telefone,
-          senha: "", // senha não vem do backend
           role: usuario.role,
         });
       } catch (error) {
@@ -81,7 +79,6 @@ export default function EditarUsuario() {
       <h2 className="mb-4 text-dark">Editar Usuário</h2>
 
       <form onSubmit={handleSubmit} className="p-4 border rounded bg-light">
-        {/* Nome */}
         <div className="mb-3">
           <label className="form-label text-dark">Nome</label>
           <input
@@ -94,7 +91,6 @@ export default function EditarUsuario() {
           />
         </div>
 
-        {/* CPF */}
         <div className="mb-3">
           <label className="form-label text-dark">CPF</label>
           <input
@@ -107,7 +103,6 @@ export default function EditarUsuario() {
           />
         </div>
 
-        {/* Email */}
         <div className="mb-3">
           <label className="form-label text-dark">Email</label>
           <input
@@ -120,21 +115,7 @@ export default function EditarUsuario() {
           />
         </div>
 
-        {/* Senha */}
-        <div className="mb-3">
-          <label className="form-label text-dark">Nova senha</label>
-          <input
-            type="password"
-            name="senha"
-            value={formData.senha}
-            onChange={handleChange}
-            className="form-control"
-            placeholder="Deixe em branco para não alterar"
-          />
-        </div>
-
-        {/* Telefone */}
-        <div className="mb-3">
+             <div className="mb-3">
           <label className="form-label text-dark">Telefone</label>
           <input
             type="text"

@@ -80,14 +80,11 @@ public class PetController {
 
     @PostMapping
     @Operation(summary = "Cadastrar Pet", description = "Método responsável por cadastrar pet")
-    public ResponseEntity<?> cadastrarPet(@RequestBody PetRequestDto pet, @AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipalDto) {
-        try {
+    public ResponseEntity<PetResponseDto> cadastrarPet(@RequestBody PetRequestDto pet, @AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipalDto) {
+
             var petResponse = petService.salvarPet(pet,usuarioPrincipalDto);
             return ResponseEntity.ok(petResponse);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
 
-        }
     }
 
 //    @GetMapping("/pesquisar")
@@ -112,17 +109,15 @@ public class PetController {
 
     @PutMapping(path = "/{id}")
     @Operation(summary = "Atualizar Pet", description = "Método responsável por atualizar pet existente")
-    public ResponseEntity<?> editarPet(
+    public ResponseEntity<PetResponseDto> editarPet(
             @PathVariable(name = "id") Long id,
             @RequestBody PetRequestDto petRequest,
             @AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipalDto
     ) {
-        try {
+
             var petResponse = petService.editarPet(id, petRequest, usuarioPrincipalDto ); //adicionar usuarioPrincipalDto
             return ResponseEntity.ok(petResponse);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+
     }
 
 

@@ -1,9 +1,6 @@
 package com.senac.AulaFullStack.presentation;
 
-import com.senac.AulaFullStack.application.dto.usuario.UsuarioPrincipalDto;
-import com.senac.AulaFullStack.application.dto.usuario.UsuarioRequestDto;
-import com.senac.AulaFullStack.application.dto.usuario.UsuarioResponseDto;
-import com.senac.AulaFullStack.application.dto.usuario.UsuarioResumoDto;
+import com.senac.AulaFullStack.application.dto.usuario.*;
 import com.senac.AulaFullStack.application.services.UsuarioService;
 import com.senac.AulaFullStack.domain.entity.Usuario;
 import com.senac.AulaFullStack.domain.repository.UsuarioRepository;
@@ -75,23 +72,22 @@ public class UsuarioController {
     }
 
     @PutMapping("/editar")
-    @Operation(summary = "Editar usuário logado")
-    public ResponseEntity<?> editarUser(
-            @RequestBody UsuarioRequestDto usuarioRequest,
+    @Operation(summary = "Editar usuário logado", description = "Método responsável por editar o usuário logado")
+    public ResponseEntity<UsuarioResponseDto> editarUser(
+            @RequestBody UsuarioRequestEdicao usuarioRequest,
             @AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipalDto) {
 
-        try {
             UsuarioResponseDto usuarioResponse =
                     usuarioService.editarUsuario(usuarioRequest, usuarioPrincipalDto);
 
             return ResponseEntity.ok(usuarioResponse);
 
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+
     }
 
     @GetMapping("/me")
+    @Operation(summary = "Buscar dados do usuário logado", description = "Método responsável por buscar dados do usuário logado")
+
     public ResponseEntity<UsuarioResponseDto> buscarUsuarioLogado(
             @AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipalDto) {
 
@@ -100,6 +96,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/vincularOng")
+    @Operation(summary = "Vincular usuário a ong", description = "Método responsável por voncular o usuário a ong que ele cadastrou")
     public ResponseEntity<UsuarioResponseDto> vincularOng(
             @RequestParam Long ongId,
             @AuthenticationPrincipal UsuarioPrincipalDto usuarioPrincipalDto) {

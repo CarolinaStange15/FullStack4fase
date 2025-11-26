@@ -1,6 +1,8 @@
 package com.senac.AulaFullStack.presentation;
 
 
+import com.senac.AulaFullStack.application.dto.especie.EspecieRequestDto;
+import com.senac.AulaFullStack.application.services.EspecieService;
 import com.senac.AulaFullStack.domain.entity.Especie;
 import com.senac.AulaFullStack.domain.repository.EspecieRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,6 +19,9 @@ public class EspecieController {
     @Autowired
     private EspecieRepository especieRepository;
 
+    @Autowired
+    private EspecieService especieService;
+
 //    @GetMapping("/{id}")
 //    @Operation(summary = "Consultar espécie por ID", description = "Método responsável por consultar espécie por ID0")
 //    public ResponseEntity<?> consultaPorId(@PathVariable Long id){
@@ -32,12 +37,11 @@ public class EspecieController {
     public ResponseEntity<?> consultarTodos(){
         return ResponseEntity.ok(especieRepository.findAll());
     }
-
     @PostMapping
     @Operation(summary = "Cadastrar Espécies", description = "Método responsável por cadastrar uma espécie de animal")
-    public ResponseEntity<?> cadastrarEspecie(@RequestBody Especie especie){
+    public ResponseEntity<?> cadastrarEspecie(@RequestBody EspecieRequestDto especieRequestDto){
         try {
-            var especieResponse = especieRepository.save(especie);
+            var especieResponse = especieService.salvarEspecie(especieRequestDto);
             return ResponseEntity.ok(especieResponse);
         } catch (Exception e){
             return ResponseEntity.badRequest().build();
