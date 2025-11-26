@@ -43,7 +43,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "/pets").permitAll() //todos os pets
                         .requestMatchers(HttpMethod.GET, "/especies").permitAll() //todas as espécies
                         .requestMatchers(HttpMethod.GET, "/pets/**").permitAll() //todos os pets
-                        .requestMatchers(HttpMethod.GET, "/ongs").permitAll() //todas as espécies
+                        .requestMatchers(HttpMethod.GET, "/ongs").permitAll() //todas as ongs
 
 
 

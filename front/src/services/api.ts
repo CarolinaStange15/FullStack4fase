@@ -1,5 +1,6 @@
 import axios from "axios";
 import { store } from "../redux/store";
+import { logout } from "../redux/authSlice";
 
 
 
@@ -27,5 +28,19 @@ api.interceptors.request.use(
         return Promise.reject(error);
     }
 );
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // Token expirado → desloga no Redux
+      store.dispatch(logout());
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+
 
 export default api;
