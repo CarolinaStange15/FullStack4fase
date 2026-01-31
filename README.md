@@ -59,7 +59,11 @@ Responsável pela administração geral do sistema.
 -Front-end
 
 -React
+
 -TypeScript
+
 -Redux Toolkit
+
 -Axios (com interceptors)
+
 -Bootstrap
