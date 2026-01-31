@@ -1,4 +1,4 @@
-**Castrong — Plataforma de Adoção de Animais**
+**Petadote — Plataforma de Adoção de Animais**
 
 O Castrong é um projeto desenvolvido para a disciplina de Desenvolvimento Full Stack, com o objetivo de conectar pessoas interessadas em adotar animais a ONGs cadastradas na plataforma, permitindo a divulgação de animais disponíveis para adoção de forma organizada e segura.
 O sistema foi pensado para funcionar como uma plataforma multiempresa, onde diferentes ONGs podem se cadastrar, gerenciar seus próprios anúncios e receber solicitações de adoção de usuários interessados.
